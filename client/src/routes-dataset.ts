@@ -1,45 +1,76 @@
 interface Graph {
-    [key: string]: { [key: string]: number };
+  [key: string]: { [key: string]: { distance: number; time: number } };
+}
+
+// Purano Buspark - Chabahil bus routes
+export const puranoBusparkToChabahil: Graph = {
+  Bhadrakali: { "Singha Durbar West Stop": { distance: 1.2, time: 5 } },
+  "Singha Durbar West Stop": { Maitighar: { distance: 0.8, time: 4 } },
+  Maitighar: { "Buddhanagar Stop": { distance: 1.1, time: 6 } },
+  "Buddhanagar Stop": {
+    "Naya Baneshwar Bus Station": { distance: 1.5, time: 8 },
+  },
+  "Naya Baneshwar Bus Station": {
+    "Minbhawan Stop": { distance: 1.0, time: 6 },
+  },
+  "Minbhawan Stop": { "Shantinagar Stop": { distance: 1.3, time: 7 } },
+  "Shantinagar Stop": { "Tinkune Stop": { distance: 1.7, time: 9 } },
+  "Tinkune Stop": { "Gairigaun Stop": { distance: 1.2, time: 6 } },
+  "Gairigaun Stop": { "Sinamangal Ring Road Stop": { distance: 1.5, time: 7 } },
+  "Sinamangal Ring Road Stop": {
+    "Airport Bus Station": { distance: 1.0, time: 5 },
+  },
+  "Airport Bus Station": { "Gaushala Chok Stop": { distance: 1.3, time: 6 } },
+  "Gaushala Chok Stop": { Chabahil: { distance: 1.1, time: 5 } },
+  Chabahil: { "Gopikrishna Stop": { distance: 1.0, time: 4 } },
+  "Gopikrishna Stop": { "Dhumbarahi Stop": { distance: 1.4, time: 7 } },
+  "Dhumbarahi Stop": { "Chappalkarkhana Stop": { distance: 1.2, time: 6 } },
+  "Chappalkarkhana Stop": { "Maharajgunj Chowk": { distance: 1.6, time: 8 } },
+};
+
+// Lagankhel - Naya Buspark (Ringroad) bus routes
+export const lagankhelToNayaBuspark: Graph = {
+  "Lagankhel Stop": { "Batuk Bhairav": { distance: 1.0, time: 4 } },
+  "Batuk Bhairav": { "Lalitpur Industrial Estate": { distance: 0.8, time: 3 } },
+  "Lalitpur Industrial Estate": { Satdobato: { distance: 1.2, time: 5 } },
+  Satdobato: { "B & B Hospital/KCM Stop": { distance: 0.7, time: 3 } },
+  "B & B Hospital/KCM Stop": { "Gwarko Chok": { distance: 0.9, time: 4 } },
+  "Gwarko Chok": { "Koteshwar Stop": { distance: 2.5, time: 10 } },
+  "Koteshwar Stop": { "Gairigaun Stop": { distance: 1.0, time: 4 } },
+  "Gairigaun Stop": { "Sinamangal Ring Road Stop": { distance: 0.8, time: 3 } },
+  "Sinamangal Ring Road Stop": {
+    "Airport Bus Station": { distance: 1.0, time: 4 },
+  },
+  "Airport Bus Station": { Chabahil: { distance: 1.5, time: 6 } },
+  Chabahil: { "Gopi Krishna Stop": { distance: 0.1, time: 1 } },
+  "Gopi Krishna Stop": { "Sukedhara Stop": { distance: 1.0, time: 4 } },
+  "Sukedhara Stop": { "Chapal Karkhana Stop": { distance: 0.9, time: 4 } },
+  "Chapal Karkhana Stop": { "Narayan Gopal Chok": { distance: 1.1, time: 5 } },
+  "Narayan Gopal Chok": { Basundhara: { distance: 0.8, time: 4 } },
+  Basundhara: { "Samakhusi Stop": { distance: 1.2, time: 5 } },
+  "Samakhusi Stop": { "Gongabu Chok": { distance: 1.0, time: 4 } },
+  "Gongabu Chok": { "Naya Bus Park": { distance: 0.5, time: 2 } },
+};
+
+const mergeMultipleGraphs = (...graphs: Graph[]): Graph => {
+  const merged: Graph = {};
+
+  for (const graph of graphs) {
+    for (const node in graph) {
+      if (!merged[node]) {
+        merged[node] = { ...graph[node] };
+      } else {
+        // Merge connections while preserving existing ones
+        merged[node] = { ...merged[node], ...graph[node] };
+      }
+    }
   }
-  
-  // Purano Buspark - Chabahil bus routes
-  export const puranoBusparkToChabahil: Graph = {
-    Bhadrakali: { "Singha Durbar West Stop": 1.2 },
-    "Singha Durbar West Stop": { Maitighar: 0.8 },
-    Maitighar: { "Buddhanagar Stop": 1.1 },
-    "Buddhanagar Stop": { "Naya Baneshwar Bus Station": 1.5 },
-    "Naya Baneshwar Bus Station": { "Minbhawan Stop": 1.0 },
-    "Minbhawan Stop": { "Shantinagar Stop": 1.3 },
-    "Shantinagar Stop": { "Tinkune Stop": 1.7 },
-    "Tinkune Stop": { "Gairigaun Stop": 1.2 },
-    "Gairigaun Stop": { "Sinamangal Ring Road Stop": 1.5 },
-    "Sinamangal Ring Road Stop": { "Airport Bus Station": 1.0 },
-    "Airport Bus Station": { "Gaushala Chok Stop": 1.3 },
-    "Gaushala Chok Stop": { Chabahil: 1.1 },
-    Chabahil: { "Gopikrishna Stop": 1.0 },
-    "Gopikrishna Stop": { "Dhumbarahi Stop": 1.4 },
-    "Dhumbarahi Stop": { "Chappalkarkhana Stop": 1.2 },
-    "Chappalkarkhana Stop": { "Maharajgunj Chowk": 1.6 },
-  };
-  
-  // Lagankhel - Naya Buspark (Ringroad) bus routes
-  export const lagankhelToNayaBuspark: Graph = {
-    "Lagankhel Stop": { "Batuk Bhairav": 1.0 },
-    "Batuk Bhairav": { "Lalitpur Industrial Estate": 0.8 },
-    "Lalitpur Industrial Estate": { Satdobato: 1.2 },
-    Satdobato: { "B & B Hospital/KCM Stop": 0.7 },
-    "B & B Hospital/KCM Stop": { "Gwarko Chok": 0.9 },
-    "Gwarko Chok": { "Koteshwar Stop": 2.5 },
-    "Koteshwar Stop": { "Gairigaun Stop": 1.0 },
-    "Gairigaun Stop": { "Sinamangal Ring Road Stop": 0.8 },
-    "Sinamangal Ring Road Stop": { "Airport Bus Station": 1.0 },
-    "Airport Bus Station": { Chabahil: 1.5 },
-    Chabahil: { "Gopi Krishna Stop": 0.1 },
-    "Gopi Krishna Stop": { "Sukedhara Stop": 1.0 },
-    "Sukedhara Stop": { "Chapal Karkhana Stop": 0.9 },
-    "Chapal Karkhana Stop": { "Narayan Gopal Chok": 1.1 },
-    "Narayan Gopal Chok": { Basundhara: 0.8 },
-    Basundhara: { "Samakhusi Stop": 1.2 },
-    "Samakhusi Stop": { "Gongabu Chok": 1.0 },
-    "Gongabu Chok": { "Naya Bus Park": 0.5 },
-  };
+
+  return merged;
+};
+
+// Merge all bus routes into one graph
+export const mergedGraph = mergeMultipleGraphs(
+  puranoBusparkToChabahil,
+  lagankhelToNayaBuspark
+);

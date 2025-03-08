@@ -1,42 +1,14 @@
 import React, { useState } from "react";
+import { dijkstra } from "./algorithm";
+import { lagankhelToNayaBuspark, mergedGraph, puranoBusparkToChabahil } from "./routes-dataset";
 
-interface Graph {
-  [key: string]: { [key: string]: number };
-}
 
-// Bus route data
-const puranoBusparkToChabahil: Graph = {
-  Bhadrakali: { "Singha Durbar West Stop": 1.2 },
-  "Singha Durbar West Stop": { Maitighar: 0.8 },
-  Maitighar: { "Lagankhel Stop": 1.1 },
-};
-
-const lagankhelToNayaBuspark: Graph = {
-  "Lagankhel Stop": { "Batuk Bhairav": 1.0 },
-  "Batuk Bhairav": { "Lalitpur Industrial Estate": 0.8 },
-  "Lalitpur Industrial Estate": { Satdobato: 1.2 },
-  Satdobato: { "B & B Hospital/KCM Stop": 0.7 },
-};
-
-const lagankhelToNayaBusparks: Graph = {
-  "B & B Hospital/KCM Stop": { "Narayan Gopal Chok": 1.0 },
-  "Narayan Gopal Chok": { "Samakhusi Stop": 1.2 },
-  "Samakhusi Stop": { "Gongabu Chok": 1.0 },
-  "Gongabu Chok": { "Naya Bus Park": 0.5 },
-};
-
-// Merge all bus routes into one graph
-const mergedGraph: Graph = {
-  ...puranoBusparkToChabahil,
-  ...lagankhelToNayaBuspark,
-  ...lagankhelToNayaBusparks
-};
 
 // Assign stops to their respective routes
 const routeMappings: { [key: string]: string[] } = {};
 const routeNames = ["Route 1", "Route 2", "Route 3"];
 
-const allRoutes = [puranoBusparkToChabahil, lagankhelToNayaBuspark, lagankhelToNayaBusparks];
+const allRoutes = [puranoBusparkToChabahil, lagankhelToNayaBuspark];
 
 allRoutes.forEach((route, index) => {
   Object.keys(route).forEach((stop) => {
@@ -48,54 +20,15 @@ allRoutes.forEach((route, index) => {
 // Get all unique stops for dropdown
 const allStops = Array.from(new Set([...Object.keys(mergedGraph)]));
 
-// Dijkstra's Algorithm for shortest path
-const dijkstra = (graph: Graph, start: string, end: string) => {
-  const distances: { [key: string]: number } = {};
-  const prev: { [key: string]: string | null } = {};
-  const pq: [string, number][] = [];
 
-  for (let node in graph) {
-    distances[node] = Infinity;
-    prev[node] = null;
-  }
-
-  distances[start] = 0;
-  pq.push([start, 0]);
-
-  while (pq.length > 0) {
-    pq.sort((a, b) => a[1] - b[1]); // Sort by distance
-    const [current, currentDist] = pq.shift()!;
-
-    if (current === end) break;
-
-    for (let neighbor in graph[current]) {
-      let newDist = currentDist + graph[current][neighbor];
-
-      if (newDist < distances[neighbor]) {
-        distances[neighbor] = newDist;
-        prev[neighbor] = current;
-        pq.push([neighbor, newDist]);
-      }
-    }
-  }
-
-  let path: string[] = [];
-  let step: string | null = end;
-  while (step) {
-    path.unshift(step);
-    step = prev[step];
-  }
-
-  return { distance: distances[end], path };
-};
 
 // Find transfer points where route changes
 const findTransferPoints = (path: string[]) => {
-  let transfers: string[] = [];
+  const transfers: string[] = [];
   let previousRoute = routeMappings[path[0]];
 
   for (let i = 1; i < path.length; i++) {
-    let currentRoute = routeMappings[path[i]];
+    const currentRoute = routeMappings[path[i]];
 
     // If the route changes at this stop, it's a transfer point
     if (currentRoute && previousRoute && currentRoute.join() !== previousRoute.join()) {
@@ -113,6 +46,7 @@ const BusRouteFinder: React.FC = () => {
   const [destination, setDestination] = useState<string>("Naya Bus Park");
   const [route, setRoute] = useState<string[]>([]);
   const [totalDistance, setTotalDistance] = useState<number>(0);
+  const [totalTime, setTotalTime] = useState<number>(0);
   const [transferPoints, setTransferPoints] = useState<string[]>([]);
 
   const findRoute = () => {
@@ -122,8 +56,10 @@ const BusRouteFinder: React.FC = () => {
     }
 
     const result = dijkstra(mergedGraph, source, destination);
+    console.log(result)
     setRoute(result.path);
-    setTotalDistance(result.distance);
+    setTotalDistance(result.distance ?? 0);
+    setTotalTime(result.time ?? 0);
 
     // Find all transfer points
     const transfers = findTransferPoints(result.path);
@@ -172,6 +108,8 @@ const BusRouteFinder: React.FC = () => {
             ))}
           </ul>
           <p><strong>Total Distance:</strong> {totalDistance?.toFixed(2)} km</p>
+          <p><strong>Total Time:</strong> {totalTime?.toFixed(2)} min</p>
+
           {transferPoints.length > 0 && (
             <p><strong>Transfers at:</strong> {transferPoints.join(", ")}</p>
           )}
