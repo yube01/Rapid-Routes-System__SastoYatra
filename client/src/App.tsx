@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { dijkstra } from "./algorithm";
-import { lagankhelToNayaBuspark, mergedGraph, puranoBusparkToChabahil } from "./routes-dataset";
+import { allRoutes, mergedGraph } from "./routes-dataset";
 
 
 
@@ -8,7 +8,6 @@ import { lagankhelToNayaBuspark, mergedGraph, puranoBusparkToChabahil } from "./
 const routeMappings: { [key: string]: string[] } = {};
 const routeNames = ["Route 1", "Route 2", "Route 3"];
 
-const allRoutes = [puranoBusparkToChabahil, lagankhelToNayaBuspark];
 
 allRoutes.forEach((route, index) => {
   Object.keys(route).forEach((stop) => {
@@ -54,9 +53,15 @@ const BusRouteFinder: React.FC = () => {
       alert("Source and destination cannot be the same!");
       return;
     }
+    const startTime = performance.now();
+
 
     const result = dijkstra(mergedGraph, source, destination);
     console.log(result)
+    const endTime = performance.now();
+    console.log(`Execution Time: ${(endTime - startTime).toFixed(4)} milliseconds`);
+
+
     setRoute(result.path);
     setTotalDistance(result.distance ?? 0);
     setTotalTime(result.time ?? 0);

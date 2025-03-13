@@ -3,6 +3,7 @@ interface Edge {
   time: number; // in minutes
 }
 
+
 interface Graph {
   [key: string]: { [key: string]: Edge };
 }
