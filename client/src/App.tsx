@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { dijkstra } from "./algorithm";
 import { allRoutes, mergedGraph } from "./routes-dataset";
+import { Button } from "./components/ui/button";
+import "./App.css"
 
 
 
@@ -74,7 +76,6 @@ const BusRouteFinder: React.FC = () => {
   return (
     <div style={{ padding: "20px", maxWidth: "400px", margin: "auto", textAlign: "center" }}>
       <h2>Bus Route Finder</h2>
-
       <div>
         <label>Source: </label>
         <select value={source} onChange={(e) => setSource(e.target.value)}>
@@ -97,12 +98,12 @@ const BusRouteFinder: React.FC = () => {
         </select>
       </div>
 
-      <button
+      <Button
         onClick={findRoute}
         style={{ marginTop: "15px", padding: "10px 15px", cursor: "pointer" }}
       >
         Find Route
-      </button>
+      </Button>
 
       {route.length > 0 && (
         <div style={{ marginTop: "20px", textAlign: "left" }}>
