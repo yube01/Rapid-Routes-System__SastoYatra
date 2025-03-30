@@ -3,6 +3,7 @@ import "dotenv/config";
 import bodyParser from "body-parser";
 import db from "./db";
 import authRoute from "../src/routes/auth.route";
+import cors from "cors";
 
 const app = express();
 const port = process.env.PORT;
@@ -10,6 +11,13 @@ const port = process.env.PORT;
 app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
+
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  })
+);
 
 app.use("/auth", authRoute);
 

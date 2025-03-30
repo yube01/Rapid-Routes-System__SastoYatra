@@ -56,11 +56,17 @@ const Login: React.FC = () => {
         setIsLoading(false);
         console.log(email, password);
 
-        // await onLoginSubmit(
-        //     { email, password },
-        //     setIsLoading,
-        //     navigate
-        // );
+        const response = await fetch(`http://localhost:5005/auth/login`, {
+            method: "POST",
+            body: JSON.stringify({ email, password }),
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+
+        const datas = await response.json();
+        console.log(datas);
     });
 
     const [rerender, setRerender] = useState(false)
@@ -122,7 +128,7 @@ const Login: React.FC = () => {
                                 <p className="text-muted-foreground font-medium text-sm ">
                                     Don't have an account yet?{" "}
                                     <Link to={"/register"}>
-                                        <span className="text-foreground">Register</span>
+                                        <span className=" text-primary-foreground">Register</span>
                                     </Link>
                                 </p>
                             </div>
@@ -172,21 +178,6 @@ const Login: React.FC = () => {
                                                 </FormItem>
                                             )}
                                         />
-
-                                        <div>
-                                            <div className=' flex justify-between'>
-                                                <div className="space-x-2">
-                                                    <input type="checkbox" />
-                                                    <label
-                                                        htmlFor="terms"
-                                                        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                                                    >
-                                                        Keep me signed in
-                                                    </label>
-                                                </div>
-                                            </div>
-
-                                        </div>
                                     </form>
                                 </Form>
                             </div>
@@ -201,11 +192,6 @@ const Login: React.FC = () => {
                                         Sign In
                                     </Button>
                                 }
-                            </div>
-                            <div className="flex items-center justify-center w-full">
-                                <hr className="flex-1 border-t" />
-                                <span className="mx-[0.625rem] text-muted-foreground">or</span>
-                                <hr className="flex-1 border-t" />
                             </div>
                         </div>
                     </div>

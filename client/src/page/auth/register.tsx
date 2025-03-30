@@ -44,14 +44,18 @@ const Register: React.FC = () => {
 
     const handleSubmitClick = registrationForm.handleSubmit(async (data) => {
         const { fullName, email, password } = data;
-        console.log(fullName, email, password);
         setIsLoading(false);
-        // await onRegisterSubmit(
-        //     { fullName, email, password },
-        //     setIsLoading,
-        //     setIsRegistered,
-        //     navigate
-        // );
+        const response = await fetch(`http://localhost:5005/auth/register`, {
+            method: "POST",
+            body: JSON.stringify({ fullName,email, password }),
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+
+        const datas = await response.json();
+        console.log(datas);
     });
 
 
@@ -64,7 +68,7 @@ const Register: React.FC = () => {
                         <p className="text-muted-foreground font-medium text-sm">
                             Already have an account?{" "}
                             <Link to={"/login"}>
-                                <span className="text-foreground">Login</span>
+                                <span className=" text-primary-foreground">Login</span>
                             </Link>
                         </p>
                     </div>
