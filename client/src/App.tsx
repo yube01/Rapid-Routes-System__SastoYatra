@@ -5,6 +5,7 @@ import BusRouteFinder from './page/home/home';
 import CenterLayout from './page/CenterLayout';
 import Register from './page/auth/register';
 import Login from './page/auth/login';
+import Test from './page/home/test';
 
 
 
@@ -14,6 +15,10 @@ function App() {
     {
       path: "/",
       element: <BusRouteFinder />,
+    },
+    {
+      path: "/test",
+      element: <Test />,
     },
     {
       element: <CenterLayout />,
