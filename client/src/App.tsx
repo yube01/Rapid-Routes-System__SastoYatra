@@ -6,6 +6,8 @@ import CenterLayout from './page/CenterLayout';
 import Register from './page/auth/register';
 import Login from './page/auth/login';
 import Test from './page/home/test';
+import PopularDestinations from './page/home/popular';
+import HistoryPage from './page/home/history';
 
 
 
@@ -19,6 +21,14 @@ function App() {
     {
       path: "/test",
       element: <Test />,
+    },
+    {
+      path: "/popular",
+      element: <PopularDestinations />,
+    },
+    {
+      path: "/history",
+      element: <HistoryPage />,
     },
     {
       element: <CenterLayout />,

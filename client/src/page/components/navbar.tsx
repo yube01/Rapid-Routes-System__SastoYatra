@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-import { Menu, MapPin, Clock, Compass } from "lucide-react"
+import { Menu, MapPin, Home, History, TrendingUp } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
@@ -9,18 +9,19 @@ import { Link } from "react-router-dom"
 const navItems = [
     {
         name: "Home",
-        to: "/",
-        icon: <MapPin className=" text-white h-5 w-5" />,
+        to: "/test",
+        icon: <Home className="text-white h-4 w-4" />
+        ,
     },
     {
         name: "Popular Destinations",
         to: "/popular",
-        icon: <Compass className=" text-white h-5 w-5" />,
+        icon: <TrendingUp className="text-white h-4 w-4" />,
     },
     {
         name: "History",
         to: "/history",
-        icon: <Clock className=" text-white h-5 w-5" />,
+        icon: <History className=" text-white h-5 w-5" />,
     },
 ]
 
@@ -44,7 +45,7 @@ export function Navbar() {
                         </SheetTrigger>
                         <SheetContent side="left" className="pr-0">
                             <div className="px-7">
-                                <Link to="/" className="flex items-center" onClick={() => setIsOpen(false)}>
+                                <Link to="/test" className="flex items-center" onClick={() => setIsOpen(false)}>
                                     <span className="font-bold text-xl text-white">Rapid Routes</span>
                                 </Link>
                             </div>
