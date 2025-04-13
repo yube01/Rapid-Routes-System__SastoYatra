@@ -2,7 +2,12 @@ import React, { useState } from "react";
 import { allRoutes, mergedGraph } from "@/routes-dataset";
 import { dijkstra } from "@/algorithm";
 import { Button } from "@/components/ui/button";
-
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { MapPin, Navigation } from "lucide-react"
+// import { Separator } from "@/components/ui/separator"
+import { Navbar } from "../components/navbar"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import RouteSection from "./route-section";
 
 
 // Assign stops to their respective routes
@@ -73,53 +78,99 @@ const BusRouteFinder: React.FC = () => {
     };
 
     return (
-        <div style={{ padding: "20px", maxWidth: "400px", margin: "auto", textAlign: "center" }}>
-            <h2>Bus Route Finder</h2>
-            <div>
-                <label>Source: </label>
-                <select value={source} onChange={(e) => setSource(e.target.value)}>
-                    {allStops.map((stop) => (
-                        <option key={stop} value={stop}>
-                            {stop}
-                        </option>
-                    ))}
-                </select>
-            </div>
+        <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
+            <Navbar />
+            <main className="flex-1 container mx-auto px-4 py-8">
+                <header className=" pb-12 px-4 text-center">
+                    <div className="container mx-auto max-w-3xl">
+                        <div className="inline-block p-2 bg-slate-800/50 rounded-full mb-4">
+                            <Navigation className="h-8 w-8 text-emerald-400" />
+                        </div>
+                        <h1 className="text-4xl md:text-5xl font-bold mb-4">Find Your Route</h1>
+                        <p className="text-slate-300 text-lg max-w-xl mx-auto">
+                            Discover the best path between any two locations with our advanced routing system
+                        </p>
+                    </div>
+                </header>
+                <main className="container mx-auto px-4 pb-20 max-w-4xl">
+                    <Card className="mb-12 border-0 shadow-lg bg-slate-800/50 backdrop-blur-sm">
+                        <CardHeader>
+                            <CardTitle className="text-xl text-emerald-400">Rapid Routes</CardTitle>
+                            <CardDescription className="text-slate-300">Select your starting point and destination</CardDescription>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 relative">
+                                <div className="space-y-3">
+                                    <label htmlFor="source" className="text-sm font-medium flex items-center gap-2 text-white">
+                                        <MapPin className="h-4 w-4 text-emerald-400" />
+                                        Starting Point
+                                    </label>
+                                    <Select value={source} onValueChange={setSource}>
+                                        <SelectTrigger id="source" className="w-full text-white border-slate-600">
+                                            <SelectValue className=" text-white" placeholder="Select starting point" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-slate-700 text-white border-slate-600">
+                                            {allStops.map((stop) => (
+                                                <SelectItem key={stop} value={stop}>
+                                                    <div>
+                                                        <div>{stop}</div>
+                                                    </div>
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
 
-            <div style={{ marginTop: "10px" }}>
-                <label>Destination: </label>
-                <select value={destination} onChange={(e) => setDestination(e.target.value)}>
-                    {allStops.map((stop) => (
-                        <option key={stop} value={stop}>
-                            {stop}
-                        </option>
-                    ))}
-                </select>
-            </div>
 
-            <Button
-                onClick={findRoute}
-                style={{ marginTop: "15px", padding: "10px 15px", cursor: "pointer" }}
-            >
-                Find Route
-            </Button>
 
-            {route.length > 0 && (
-                <div style={{ marginTop: "20px", textAlign: "left" }}>
-                    <h3>Route:</h3>
-                    <ul>
-                        {route.map((stop, index) => (
-                            <li key={index}>{stop}</li>
-                        ))}
-                    </ul>
-                    <p><strong>Total Distance:</strong> {totalDistance?.toFixed(2)} km</p>
-                    <p><strong>Total Time:</strong> {totalTime?.toFixed(2)} min</p>
+                                <div className="space-y-3">
+                                    <label htmlFor="destination" className="text-sm font-medium flex items-center gap-2 text-white">
+                                        <MapPin className="h-4 w-4 text-emerald-400" />
+                                        Destination
+                                    </label>
+                                    <Select value={destination} onValueChange={setDestination}>
+                                        <SelectTrigger id="destination" className="w-full text-white border-slate-600">
+                                            <SelectValue className=" text-white" placeholder="Select destination" />
+                                        </SelectTrigger>
+                                        <SelectContent className="bg-slate-700 text-white border-slate-600">
+                                            {allStops.map((stop) => (
+                                                <SelectItem key={stop} value={stop}>
+                                                    <div>
+                                                        <div>{stop}</div>
+                                                    </div>
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+                            </div>
 
-                    {transferPoints.length > 0 && (
-                        <p><strong>Transfers at:</strong> {transferPoints.join(", ")}</p>
+                            <div className="mt-8 flex justify-center">
+                                <Button
+                                    onClick={findRoute}
+                                    disabled={!source || !destination || source === destination}
+                                    className="px-8 py-6 bg-emerald-500 hover:bg-emerald-600 text-white"
+                                    size="lg"
+                                >
+                                    <Navigation className="mr-2 h-5 w-5" />
+                                    Find Route
+                                </Button>
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {route.length > 0 && source && destination && (
+                        <RouteSection
+                            sourceLocation={source}
+                            destinationLocation={destination}
+                            route={route}
+                            transferPoints={transferPoints}
+                            totalTime={totalTime.toFixed(2)}
+                            totalDistance={totalDistance.toFixed(2)}
+                        />
                     )}
-                </div>
-            )}
+                </main>
+            </main>
         </div>
     );
 };
