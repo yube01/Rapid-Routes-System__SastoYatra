@@ -8,6 +8,7 @@ import Login from './page/auth/login';
 import Test from './page/home/test';
 import PopularDestinations from './page/home/popular';
 import HistoryPage from './page/home/history';
+import { Toaster } from './components/ui/sonner';
 
 
 
@@ -50,8 +51,8 @@ function App() {
   return (
 
     <>
+      <Toaster />
       <RouterProvider router={router} />
-
     </>
   )
 }

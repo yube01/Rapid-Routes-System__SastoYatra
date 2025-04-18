@@ -3,7 +3,6 @@ interface Edge {
   time: number; // in minutes
 }
 
-
 interface Graph {
   [key: string]: { [key: string]: Edge };
 }
@@ -70,27 +69,8 @@ export const dijkstra = (graph: Graph, start: string, end: string) => {
     ? { distance: distances[end], time: times[end], path: buildPath(prev, end) }
     : {
         message: `No direct route to ${end}.`,
-        closestStop: findClosestStop(visited, distances),
         path: [],
       };
-};
-
-// Find closest stop if no direct route exists
-const findClosestStop = (
-  visited: Set<string>,
-  distances: { [key: string]: number }
-) => {
-  let closestStop = null;
-  let minDistance = Infinity;
-
-  for (const stop of visited) {
-    if (distances[stop] < minDistance) {
-      closestStop = stop;
-      minDistance = distances[stop];
-    }
-  }
-
-  return closestStop;
 };
 
 // Helper function to build the path

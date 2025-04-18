@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { allRoutes, mergedGraph } from "@/routes-dataset";
 import { dijkstra } from "@/algorithm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { MapPin, Navigation } from "lucide-react"
-// import { Separator } from "@/components/ui/separator"
 import { Navbar } from "../components/navbar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import RouteSection from "./route-section";
+import { useNavigate } from "react-router-dom";
 
 
 // Assign stops to their respective routes
@@ -47,6 +47,15 @@ const findTransferPoints = (path: string[]) => {
 };
 
 const BusRouteFinder: React.FC = () => {
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+
+        if (localStorage.getItem("access_token") === null) {
+            navigate("/login")
+        }
+    }, [navigate])
     const [source, setSource] = useState<string>("Bhadrakali");
     const [destination, setDestination] = useState<string>("Naya Bus Park");
     const [route, setRoute] = useState<string[]>([]);
@@ -159,10 +168,8 @@ const BusRouteFinder: React.FC = () => {
                         </CardContent>
                     </Card>
 
-                    {route.length > 0 && source && destination && (
+                    {route.length > 0 && (
                         <RouteSection
-                            sourceLocation={source}
-                            destinationLocation={destination}
                             route={route}
                             transferPoints={transferPoints}
                             totalTime={totalTime.toFixed(2)}

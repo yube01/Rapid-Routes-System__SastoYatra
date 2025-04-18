@@ -1,20 +1,13 @@
 "use client"
 
-import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { MapPin, Clock, ArrowRight, Navigation } from "lucide-react"
 import { motion } from "framer-motion"
 
-interface RoutePoint {
-  name: string
-  description?: string
-  type: "start" | "stop" | "end"
-}
 
 interface RouteSectionProps {
-  sourceLocation: string
-  destinationLocation: string
+
   route: string[]
   transferPoints: string[]
   totalTime?: string
@@ -22,60 +15,13 @@ interface RouteSectionProps {
 }
 
 export default function RouteSection({
-  sourceLocation,
-  destinationLocation,
+
   route,
-  transferPoints,
+  // transferPoints,
   totalTime,
   totalDistance,
 }: RouteSectionProps) {
-  const [animatedRoute, setAnimatedRoute] = useState<RoutePoint[]>([])
 
-  console.log(route)
-
-  // Create a complete route array with start, stops, and end
-  useEffect(() => {
-    const fullRoute: RoutePoint[] = []
-
-    // Add starting point
-    if (sourceLocation) {
-      fullRoute.push({
-        name: sourceLocation,
-        description: sourceLocation,
-        type: "start",
-      })
-    }
-
-    // Add intermediate stops
-    if (route.length > 0) {
-      route.forEach((stop) => {
-        fullRoute.push({
-          name: stop,
-          type: "stop",
-        })
-      })
-    }
-
-    // Add destination
-    if (destinationLocation) {
-      fullRoute.push({
-        name: destinationLocation,
-        description: destinationLocation,
-        type: "end",
-      })
-    }
-
-    // Animate each point appearing one by one
-    const animateRoute = async () => {
-      setAnimatedRoute([])
-      for (let i = 0; i < fullRoute.length; i++) {
-        await new Promise((resolve) => setTimeout(resolve, 300))
-        setAnimatedRoute((prev) => [...prev, fullRoute[i]])
-      }
-    }
-
-    animateRoute()
-  }, [sourceLocation, destinationLocation, route])
 
   // Animation variants
   const containerVariants = {
@@ -92,11 +38,6 @@ export default function RouteSection({
     hidden: { opacity: 0, y: 20 },
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   }
-
-  // const lineVariants = {
-  //   hidden: { pathLength: 0 },
-  //   show: { pathLength: 1, transition: { duration: 0.8, ease: "easeInOut" } },
-  // }
 
   return (
     <motion.div
@@ -116,72 +57,73 @@ export default function RouteSection({
 
       <Card className="border-0 shadow-lg bg-slate-800/50 backdrop-blur-sm overflow-hidden">
         <CardContent className="p-0">
-          <motion.div className="py-6" variants={containerVariants} initial="hidden" animate="show">
-            {animatedRoute.map((point, index) => (
-              <motion.div key={index} variants={itemVariants} className="relative">
-                <div className="flex items-start px-6">
-                  <div className="relative">
-                    <motion.div
-                      className={`h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 ${point.type === "start"
+          <motion.div key={JSON.stringify(route)} className="py-6" variants={containerVariants} initial="hidden" animate="show">
+            {route.map((point, index) => {
+              const isFirst = index === 0;
+              const isLast = index === route.length - 1;
+              return (
+                <motion.div key={index} variants={itemVariants} className="relative">
+                  <div className="flex items-start px-6">
+                    <div className="relative">
+                      <motion.div
+                        className={`h-12 w-12 rounded-full flex items-center justify-center flex-shrink-0 ${isFirst
                           ? "bg-emerald-500/20"
-                          : point.type === "end"
+                          : isLast
                             ? "bg-emerald-500/20"
                             : "bg-slate-700/50"
-                        }`}
-                      initial={{ scale: 0.8 }}
-                      animate={{ scale: 1 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <MapPin
-                        className={`h-6 w-6 ${point.type === "start" || point.type === "end" ? "text-emerald-400" : "text-slate-400"
                           }`}
-                      />
-                      {/* Pulse animation for the current point */}
-                      {index === animatedRoute.length - 1 && (
+                        initial={{ scale: 0.8 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <MapPin
+                          className={`h-6 w-6 ${isFirst || isLast ? "text-emerald-400" : "text-slate-400"
+                            }`}
+                        />
+                        {/* Pulse animation for the current point */}
+                        {index === route.length - 1 && (
+                          <motion.div
+                            className="absolute inset-0 rounded-full bg-emerald-400/20"
+                            initial={{ scale: 0.8, opacity: 0.8 }}
+                            animate={{ scale: 1.2, opacity: 0 }}
+                            transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                          />
+                        )}
+                      </motion.div>
+
+                      {/* Connecting line to next point */}
+                      {index < route.length - 1 && (
                         <motion.div
-                          className="absolute inset-0 rounded-full bg-emerald-400/20"
-                          initial={{ scale: 0.8, opacity: 0.8 }}
-                          animate={{ scale: 1.2, opacity: 0 }}
-                          transition={{ duration: 1.5, repeat: Number.POSITIVE_INFINITY }}
+                          className="absolute left-1/2 top-12 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500/30 to-slate-700/30"
+                          style={{ height: "calc(100% - 12px)" }}
+                          initial={{ scaleY: 0, originY: 0 }}
+                          animate={{ scaleY: 1 }}
+                          transition={{ duration: 0.5, delay: 0.2 }}
                         />
                       )}
-                    </motion.div>
-
-                    {/* Connecting line to next point */}
-                    {index < animatedRoute.length - 1 && (
-                      <motion.div
-                        className="absolute left-1/2 top-12 bottom-0 w-0.5 bg-gradient-to-b from-emerald-500/30 to-slate-700/30"
-                        style={{ height: "calc(100% - 12px)" }}
-                        initial={{ scaleY: 0, originY: 0 }}
-                        animate={{ scaleY: 1 }}
-                        transition={{ duration: 0.5, delay: 0.2 }}
-                      />
-                    )}
-                  </div>
-
-                  <motion.div
-                    className="ml-4 pb-8"
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.3, delay: 0.1 }}
-                  >
-                    <div
-                      className={`font-medium text-lg ${point.type === "start" || point.type === "end" ? "text-white" : "text-slate-300"
-                        }`}
-                    >
-                      {point.name}
                     </div>
-                    {point.description && <div className="text-sm text-slate-400">{point.description}</div>}
-                    {point.type === "start" && <div className="text-sm text-emerald-400 mt-1">Starting Point</div>}
-                    {point.type === "end" && <div className="text-sm text-emerald-400 mt-1">Destination</div>}
-                  </motion.div>
-                </div>
-              </motion.div>
-            ))}
+
+                    <motion.div
+                      className="ml-4 pb-8"
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ duration: 0.3, delay: 0.1 }}
+                    >
+                      <div
+                        className={` h-12 flex items-center justify-center font-medium text-lg ${isFirst || isLast ? "text-white" : "text-slate-300"
+                          }`}
+                      >
+                        {point}
+                      </div>
+                    </motion.div>
+                  </div>
+                </motion.div>
+              )
+            })}
           </motion.div>
 
           {/* Transfer Points Section */}
-          {transferPoints.length > 0 && (
+          {/* {transferPoints.length > 0 && (
             <motion.div
               className="px-6 py-4 bg-slate-700/30"
               initial={{ opacity: 0 }}
@@ -211,7 +153,7 @@ export default function RouteSection({
                 </div>
               </div>
             </motion.div>
-          )}
+          )} */}
 
           {/* Route Summary */}
           <motion.div
@@ -225,7 +167,7 @@ export default function RouteSection({
                 <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                   <Clock className="h-5 w-5 text-emerald-400" />
                 </div>
-                <div>
+                <div className=" text-white">
                   <div className="text-sm text-slate-400">Estimated Travel Time</div>
                   <div className="font-medium text-lg">{totalTime}</div>
                 </div>
@@ -235,7 +177,7 @@ export default function RouteSection({
                 <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                   <ArrowRight className="h-5 w-5 text-emerald-400" />
                 </div>
-                <div>
+                <div className=" text-white">
                   <div className="text-sm text-slate-400">Total Distance</div>
                   <div className="font-medium text-lg">{totalDistance}</div>
                 </div>

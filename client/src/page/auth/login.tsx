@@ -7,6 +7,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useForm } from 'react-hook-form'
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
 
 
 
@@ -66,7 +67,11 @@ const Login: React.FC = () => {
         })
 
         const datas = await response.json();
-        console.log(datas);
+        if (datas.user) {
+            navigate("/")
+        } else {
+            toast(datas.message)
+        }
     });
 
     const [rerender, setRerender] = useState(false)
@@ -158,9 +163,6 @@ const Login: React.FC = () => {
                                                 <FormItem>
                                                     <FormLabel className="flex justify-between">
                                                         Password{" "}
-                                                        <Link to={"/forgotPassword"} className="text-muted-foreground font-medium text-sm">
-                                                            Forgot Password?
-                                                        </Link>
                                                     </FormLabel>
                                                     <FormControl>
                                                         <div className="relative">
@@ -188,7 +190,7 @@ const Login: React.FC = () => {
                                         <Loader className="h-6 animate-spin" />
                                     </Button>
                                     :
-                                    <Button className="w-full py-[0.625rem] px-[0.875rem]" onClick={handleSubmitClick}>
+                                    <Button className="w-full py-[0.625rem] px-[0.875rem] bg-emerald-500 hover:bg-emerald-600" onClick={handleSubmitClick}>
                                         Sign In
                                     </Button>
                                 }

@@ -5,7 +5,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { Eye, EyeOff, Loader } from 'lucide-react'
 import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
 import { z } from "zod";
 // import { onRegisterSubmit } from '@/api/RegisterUser'
 const RegisterSchema = z.object({
@@ -23,7 +24,7 @@ const Register: React.FC = () => {
 
     const [show, setShow] = useState(false);
     const [isLoading, setIsLoading] = useState<boolean>(false);
-    // const navigate = useNavigate()
+    const navigate = useNavigate()
 
 
 
@@ -47,7 +48,7 @@ const Register: React.FC = () => {
         setIsLoading(false);
         const response = await fetch(`http://localhost:5005/auth/register`, {
             method: "POST",
-            body: JSON.stringify({ fullName,email, password }),
+            body: JSON.stringify({ fullName, email, password }),
             credentials: "include",
             headers: {
                 "Content-Type": "application/json"
@@ -55,7 +56,11 @@ const Register: React.FC = () => {
         })
 
         const datas = await response.json();
-        console.log(datas);
+        if (datas.msg === "User added Sucessfully!") {
+            navigate("/login")
+        } else {
+            toast(datas.msg)
+        }
     });
 
 
@@ -137,7 +142,7 @@ const Register: React.FC = () => {
                                 <Button className="w-full py-[0.625rem] px-[0.875rem]">
                                     <Loader className="h-6 animate-spin" />
                                 </Button> :
-                                <Button className="w-full py-[0.625rem] px-[0.875rem]"
+                                <Button className="w-full py-[0.625rem] px-[0.875rem] bg-emerald-500 hover:bg-emerald-600"
                                     onClick={handleSubmitClick}
                                 >
                                     Register
