@@ -8,6 +8,7 @@ import { Navbar } from "../components/navbar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import RouteSection from "./route-section";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
 
 
 // Assign stops to their respective routes
@@ -50,17 +51,13 @@ const BusRouteFinder: React.FC = () => {
 
     const navigate = useNavigate()
 
-    useEffect(() => {
 
-        if (localStorage.getItem("access_token") === null) {
-            navigate("/login")
-        }
-    }, [navigate])
     const [source, setSource] = useState<string>("Bhadrakali");
     const [destination, setDestination] = useState<string>("Naya Bus Park");
     const [route, setRoute] = useState<string[]>([]);
     const [totalDistance, setTotalDistance] = useState<number>(0);
     const [totalTime, setTotalTime] = useState<number>(0);
+    const [cost, setCost] = useState<number>(0);
     const [transferPoints, setTransferPoints] = useState<string[]>([]);
 
     const findRoute = () => {
@@ -73,6 +70,9 @@ const BusRouteFinder: React.FC = () => {
 
         const result = dijkstra(mergedGraph, source, destination);
         console.log(result)
+        if (result.path.length === 0) {
+            toast.error("No direct route to this destination. Please try another one.")
+        }
         const endTime = performance.now();
         console.log(`Execution Time: ${(endTime - startTime).toFixed(4)} milliseconds`);
 
@@ -84,7 +84,38 @@ const BusRouteFinder: React.FC = () => {
         // Find all transfer points
         const transfers = findTransferPoints(result.path);
         setTransferPoints(transfers);
+
+
     };
+    const calculateTotalFare = (totalDistance: number): number => {
+        //cost
+        if (totalDistance <= 5) {
+            return 20;
+        } else if (totalDistance <= 10) {
+            return 25;
+        } else if (totalDistance <= 15) {
+            return 30;
+        } else if (totalDistance <= 20) {
+            return 33;
+        } else {
+            // Optionally handle totalDistances greater than 20 km
+            // For now, you can return a base + additional rate
+            return 33 + Math.ceil(totalDistance - 20) * 2; // Rs. 2 per km after 20 km (example)
+        }
+    };
+
+
+
+    useEffect(() => {
+
+        if (localStorage.getItem("access_token") === null) {
+            navigate("/login")
+        }
+        const totalFare = calculateTotalFare(totalDistance);
+        setCost(totalFare);
+    }, [navigate, totalDistance])
+
+
 
     return (
         <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
@@ -158,7 +189,7 @@ const BusRouteFinder: React.FC = () => {
                                 <Button
                                     onClick={findRoute}
                                     disabled={!source || !destination || source === destination}
-                                    className="px-8 py-6 bg-emerald-500 hover:bg-emerald-600 text-white"
+                                    className="px-8 py-6 bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer"
                                     size="lg"
                                 >
                                     <Navigation className="mr-2 h-5 w-5" />
@@ -174,6 +205,7 @@ const BusRouteFinder: React.FC = () => {
                             transferPoints={transferPoints}
                             totalTime={totalTime.toFixed(2)}
                             totalDistance={totalDistance.toFixed(2)}
+                            totalCost={cost}
                         />
                     )}
                 </main>

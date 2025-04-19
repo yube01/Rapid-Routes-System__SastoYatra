@@ -13,70 +13,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { MapPin, Navigation, Star, TrendingUp, Clock, Users, ArrowRight } from 'lucide-react'
 import { Link } from 'react-router-dom'
 import { Navbar } from '../components/navbar'
+import { popularRoutes } from '@/data/destination'
 
-// Dummy data for popular destinations
-const popularRoutes = [
-    {
-        id: 'route1',
-        source: { id: 'loc1', name: 'Downtown', description: 'City Center' },
-        destination: { id: 'loc5', name: 'Beach', description: 'Coastal Area' },
-        distance: '12.5 km',
-        time: '35 mins',
-        popularity: 'Very High',
-        searches: 2453,
-        category: 'leisure'
-    },
-    {
-        id: 'route2',
-        source: { id: 'loc2', name: 'Airport', description: 'International Terminal' },
-        destination: { id: 'loc1', name: 'Downtown', description: 'City Center' },
-        distance: '18.2 km',
-        time: '45 mins',
-        popularity: 'High',
-        searches: 1876,
-        category: 'travel'
-    },
-    {
-        id: 'route3',
-        source: { id: 'loc1', name: 'Downtown', description: 'City Center' },
-        destination: { id: 'loc3', name: 'University', description: 'Main Campus' },
-        distance: '5.8 km',
-        time: '15 mins',
-        popularity: 'High',
-        searches: 1654,
-        category: 'education'
-    },
-    {
-        id: 'route4',
-        source: { id: 'loc4', name: 'Shopping Mall', description: 'Central Mall' },
-        destination: { id: 'loc5', name: 'Beach', description: 'Coastal Area' },
-        distance: '9.3 km',
-        time: '22 mins',
-        popularity: 'Medium',
-        searches: 987,
-        category: 'leisure'
-    },
-    {
-        id: 'route5',
-        source: { id: 'loc3', name: 'University', description: 'Main Campus' },
-        destination: { id: 'loc4', name: 'Shopping Mall', description: 'Central Mall' },
-        distance: '4.2 km',
-        time: '12 mins',
-        popularity: 'Medium',
-        searches: 865,
-        category: 'shopping'
-    },
-    {
-        id: 'route6',
-        source: { id: 'loc2', name: 'Airport', description: 'International Terminal' },
-        destination: { id: 'loc3', name: 'University', description: 'Main Campus' },
-        distance: '22.5 km',
-        time: '50 mins',
-        popularity: 'Low',
-        searches: 432,
-        category: 'education'
-    },
-]
+
 
 export default function PopularDestinations() {
     const [activeTab, setActiveTab] = useState('all')
@@ -104,20 +43,20 @@ export default function PopularDestinations() {
             <main className="container mx-auto px-4 pb-20 max-w-5xl">
                 <Tabs defaultValue="all" className="mb-8" onValueChange={setActiveTab}>
                     <div className="flex justify-center mb-6">
-                        <TabsList className="bg-slate-800/50 backdrop-blur-sm">
-                            <TabsTrigger value="all" className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400">
+                        <TabsList className="bg-slate-800/50 text-white">
+                            <TabsTrigger value="all" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
                                 All Routes
                             </TabsTrigger>
-                            <TabsTrigger value="travel" className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400">
+                            <TabsTrigger value="travel" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
                                 Travel
                             </TabsTrigger>
-                            <TabsTrigger value="leisure" className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400">
+                            <TabsTrigger value="leisure" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
                                 Leisure
                             </TabsTrigger>
-                            <TabsTrigger value="education" className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400">
+                            <TabsTrigger value="education" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
                                 Education
                             </TabsTrigger>
-                            <TabsTrigger value="shopping" className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400">
+                            <TabsTrigger value="shopping" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
                                 Shopping
                             </TabsTrigger>
                         </TabsList>

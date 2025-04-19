@@ -29,7 +29,7 @@ export function Navbar() {
     const [isOpen, setIsOpen] = useState(false)
 
     return (
-        <header className="sticky top-0 z-50 w-full text-white">
+        <header className="fixed top-0 lg:w-[1280px] md:w-full z-50 w-full text-white backdrop-blur bg-black/40">
             <div className="container flex h-16 items-center justify-between">
                 <div className="mr-4 flex items-center md:hidden">
                     <Sheet open={isOpen} onOpenChange={setIsOpen}>

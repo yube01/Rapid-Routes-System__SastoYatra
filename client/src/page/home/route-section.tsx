@@ -2,7 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Clock, ArrowRight, Navigation } from "lucide-react"
+import { MapPin, Clock, Navigation, Banknote, Route } from "lucide-react"
 import { motion } from "framer-motion"
 
 
@@ -12,6 +12,7 @@ interface RouteSectionProps {
   transferPoints: string[]
   totalTime?: string
   totalDistance?: string
+  totalCost?: number
 }
 
 export default function RouteSection({
@@ -20,6 +21,7 @@ export default function RouteSection({
   // transferPoints,
   totalTime,
   totalDistance,
+  totalCost
 }: RouteSectionProps) {
 
 
@@ -162,7 +164,7 @@ export default function RouteSection({
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1, duration: 0.5 }}
           >
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="flex items-center gap-3 bg-slate-700/30 p-3 rounded-lg">
                 <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
                   <Clock className="h-5 w-5 text-emerald-400" />
@@ -175,11 +177,21 @@ export default function RouteSection({
 
               <div className="flex items-center gap-3 bg-slate-700/30 p-3 rounded-lg">
                 <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
-                  <ArrowRight className="h-5 w-5 text-emerald-400" />
+                  <Route className="h-5 w-5 text-emerald-400" />
                 </div>
                 <div className=" text-white">
                   <div className="text-sm text-slate-400">Total Distance</div>
                   <div className="font-medium text-lg">{totalDistance}</div>
+                </div>
+              </div>
+
+              <div className="flex items-center gap-3 bg-slate-700/30 p-3 rounded-lg">
+                <div className="h-10 w-10 rounded-full bg-emerald-500/10 flex items-center justify-center flex-shrink-0">
+                  <Banknote className="h-5 w-5 text-emerald-400" />
+                </div>
+                <div className=" text-white">
+                  <div className="text-sm text-slate-400">Total Cost</div>
+                  <div className="font-medium text-lg">Rs. {totalCost}</div>
                 </div>
               </div>
             </div>
