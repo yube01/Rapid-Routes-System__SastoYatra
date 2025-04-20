@@ -60,6 +60,8 @@ const BusRouteFinder: React.FC = () => {
     const [cost, setCost] = useState<number>(0);
     const [transferPoints, setTransferPoints] = useState<string[]>([]);
 
+    console.log(allStops)
+
     const findRoute = () => {
         if (source === destination) {
             alert("Source and destination cannot be the same!");

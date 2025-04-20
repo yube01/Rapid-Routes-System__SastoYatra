@@ -9,7 +9,7 @@ import { motion } from "framer-motion"
 interface RouteSectionProps {
 
   route: string[]
-  transferPoints: string[]
+  transferPoints?: string[]
   totalTime?: string
   totalDistance?: string
   totalCost?: number

@@ -1,24 +1,84 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import {
     Card,
-    CardContent,
     CardHeader,
     CardTitle,
     CardDescription,
-    CardFooter
 } from '@/components/ui/card'
+import {
+    Dialog,
+    DialogTrigger,
+    DialogContent,
+    DialogHeader,
+    DialogTitle,
+    DialogClose,
+    DialogFooter,
+} from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { MapPin, Navigation, Star, TrendingUp, Clock, Users, ArrowRight } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Navigation, TrendingUp } from 'lucide-react'
 import { Navbar } from '../components/navbar'
 import { popularRoutes } from '@/data/destination'
+import { mergedGraph } from '@/routes-dataset'
+import { dijkstra } from '@/algorithm'
+import { toast } from 'sonner'
+import RouteSection from './route-section';
 
 
 
 export default function PopularDestinations() {
     const [activeTab, setActiveTab] = useState('all')
+
+    const [routes, setRoutes] = useState<string[]>([]);
+    const [totalDistance, setTotalDistance] = useState<number>(0);
+    const [totalTime, setTotalTime] = useState<number>(0);
+    const [cost, setCost] = useState<number>(0);
+
+    const findRoute = (source: string, destination: string) => {
+        if (source === destination) {
+            alert("Source and destination cannot be the same!");
+            return;
+        }
+        const startTime = performance.now();
+
+
+        const result = dijkstra(mergedGraph, source, destination);
+        console.log(result)
+        if (result.path.length === 0) {
+            toast.error("No direct route to this destination. Please try another one.")
+        }
+        const endTime = performance.now();
+        console.log(`Execution Time: ${(endTime - startTime).toFixed(4)} milliseconds`);
+
+
+        setRoutes(result.path);
+        setTotalDistance(result.distance ?? 0);
+        setTotalTime(result.time ?? 0);
+
+
+    };
+    const calculateTotalFare = (totalDistance: number): number => {
+        //cost
+        if (totalDistance <= 5) {
+            return 20;
+        } else if (totalDistance <= 10) {
+            return 25;
+        } else if (totalDistance <= 15) {
+            return 30;
+        } else if (totalDistance <= 20) {
+            return 33;
+        } else {
+            // Optionally handle totalDistances greater than 20 km
+            // For now, you can return a base + additional rate
+            return 33 + Math.ceil(totalDistance - 20) * 2; // Rs. 2 per km after 20 km (example)
+        }
+    };
+
+    useEffect(() => {
+
+        const totalFare = calculateTotalFare(totalDistance);
+        setCost(totalFare);
+    }, [totalDistance])
 
     const filteredRoutes = activeTab === 'all'
         ? popularRoutes
@@ -65,71 +125,73 @@ export default function PopularDestinations() {
                     <TabsContent value={activeTab} className="mt-0">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {filteredRoutes.map((route) => (
-                                <Card key={route.id} className="border-0 shadow-lg bg-slate-800/50 backdrop-blur-sm overflow-hidden hover:shadow-emerald-900/10 hover:shadow-xl transition-all duration-300">
-                                    <CardHeader className="pb-2">
-                                        <div className="flex justify-between items-start">
+                                <Card
+                                    key={route.id}
+                                    className="border-0 px-4 flex justify-between shadow-lg bg-slate-800/50 backdrop-blur-sm overflow-hidden hover:shadow-emerald-900/10 hover:shadow-xl transition-all duration-300"
+                                >
+                                    <div className="w-full h-52 overflow-hidden">
+                                        <img
+                                            src={route.img}
+                                            alt=""
+                                            className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                        />
+                                    </div>
+
+                                    <CardHeader>
+                                        <div className="flex justify-center items-start">
                                             <CardTitle className="text-lg text-emerald-400">
-                                                {route.source.name} to {route.destination.name}
+                                                {route.name}
                                             </CardTitle>
-                                            <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30">
-                                                {route.popularity}
-                                            </Badge>
+
                                         </div>
                                         <CardDescription className="text-slate-400">
                                             {route.category.charAt(0).toUpperCase() + route.category.slice(1)} Route
                                         </CardDescription>
                                     </CardHeader>
-                                    <CardContent>
-                                        <div className="flex items-center gap-3 mb-4">
-                                            <div className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                                                <MapPin className="h-5 w-5 text-emerald-400" />
-                                            </div>
-                                            <div>
-                                                <div className="font-medium">{route.source.name}</div>
-                                                <div className="text-sm text-slate-400">{route.source.description}</div>
-                                            </div>
-                                        </div>
-
-                                        <div className="ml-5 border-l-2 border-dashed border-emerald-500/30 pl-4 py-2">
-                                            <div className="flex items-center gap-2 text-sm text-slate-300">
-                                                <Clock className="h-4 w-4 text-emerald-400" />
-                                                <span>{route.time}</span>
-                                            </div>
-                                            <div className="flex items-center gap-2 text-sm text-slate-300">
-                                                <ArrowRight className="h-4 w-4 text-emerald-400" />
-                                                <span>{route.distance}</span>
-                                            </div>
-                                        </div>
-
-                                        <div className="flex items-center gap-3 mt-4">
-                                            <div className="h-10 w-10 rounded-full bg-emerald-500/20 flex items-center justify-center flex-shrink-0">
-                                                <MapPin className="h-5 w-5 text-emerald-400" />
-                                            </div>
-                                            <div>
-                                                <div className="font-medium">{route.destination.name}</div>
-                                                <div className="text-sm text-slate-400">{route.destination.description}</div>
-                                            </div>
-                                        </div>
-                                    </CardContent>
-                                    <CardFooter className="border-t border-slate-700 pt-4 flex justify-between items-center">
-                                        <div className="flex items-center gap-1 text-sm text-slate-400">
-                                            <Users className="h-4 w-4" />
-                                            <span>{route.searches.toLocaleString()} searches</span>
-                                        </div>
-                                        <Link to={`/?source=${route.source.id}&destination=${route.destination.id}`}>
-                                            <Button variant="outline" size="sm" className="border-emerald-500/30 text-emerald-400 hover:bg-emerald-500/20">
+                                    <Dialog>
+                                        <DialogTrigger asChild>
+                                            <Button
+                                                onClick={() => {
+                                                    findRoute("Bhadrakali", route.location);
+                                                }}
+                                                variant="outline"
+                                                size="sm"
+                                                className="border-emerald-500/30 cursor-pointer text-emerald-400 hover:bg-emerald-500/20 hover:text-white"
+                                            >
                                                 <Navigation className="mr-1 h-4 w-4" />
                                                 Get Directions
                                             </Button>
-                                        </Link>
-                                    </CardFooter>
+                                        </DialogTrigger>
+
+                                        <DialogContent className="max-h-[90vh] overflow-y-auto min-w-[40rem] bg-slate-900 border border-emerald-500/30">
+                                            <DialogHeader >
+                                                <DialogTitle className="text-emerald-400 w-[20rem]">Route Details</DialogTitle>
+                                                <RouteSection
+                                                    route={routes}
+                                                    totalTime={totalTime.toFixed(2)}
+                                                    totalDistance={totalDistance.toFixed(2)}
+                                                    totalCost={cost}
+                                                />
+                                            </DialogHeader>
+
+                                            <DialogFooter>
+                                                <DialogClose asChild>
+                                                    <Button type="button"
+                                                        className="border-emerald-500/30 cursor-pointer text-emerald-400 hover:bg-emerald-500/20 hover:text-white"
+                                                        variant="secondary">
+                                                        Close
+                                                    </Button>
+                                                </DialogClose>
+                                            </DialogFooter>
+                                        </DialogContent>
+                                    </Dialog>
                                 </Card>
                             ))}
                         </div>
                     </TabsContent>
                 </Tabs>
 
-                <div className="mt-12 text-center">
+                {/* <div className="mt-12 text-center">
                     <Card className="border-0 shadow-lg bg-slate-800/50 backdrop-blur-sm p-6 max-w-2xl mx-auto">
                         <div className="flex items-center justify-center gap-2 mb-4">
                             <Star className="h-5 w-5 text-yellow-400" fill="#facc15" />
@@ -149,7 +211,7 @@ export default function PopularDestinations() {
                             </Button>
                         </Link>
                     </Card>
-                </div>
+                </div> */}
             </main>
         </div>
     )
