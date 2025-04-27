@@ -8,6 +8,27 @@
       "when": 1743329052485,
       "tag": "0000_black_retro_girl",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1745735454825,
+      "tag": "0001_regular_vin_gonzales",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1745735607318,
+      "tag": "0002_charming_morlun",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1745735740566,
+      "tag": "0003_volatile_starbolt",
+      "breakpoints": true
     }
   ]
 }

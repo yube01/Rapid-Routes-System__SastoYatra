@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import {
     Card,
     CardHeader,
@@ -23,6 +23,7 @@ import { mergedGraph } from '@/routes-dataset'
 import { dijkstra } from '@/algorithm'
 import { toast } from 'sonner'
 import RouteSection from './route-section';
+import { getExponentialDecayScore } from '@/algorithm/exponentialDecayScore';
 
 
 
@@ -80,9 +81,18 @@ export default function PopularDestinations() {
         setCost(totalFare);
     }, [totalDistance])
 
-    const filteredRoutes = activeTab === 'all'
-        ? popularRoutes
-        : popularRoutes.filter(route => route.category === activeTab)
+    const sortedRoutes = useMemo(() => {
+        const filtered = activeTab === 'all'
+            ? popularRoutes
+            : popularRoutes.filter(route => route.category === activeTab);
+
+        return filtered
+            .map(route => ({
+                ...route,
+                score: getExponentialDecayScore(route.searchCount, route.lastSearchTime)
+            }))
+            .sort((a, b) => b.score - a.score);
+    }, [activeTab]);
 
     return (
         <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
@@ -124,7 +134,7 @@ export default function PopularDestinations() {
 
                     <TabsContent value={activeTab} className="mt-0">
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                            {filteredRoutes.map((route) => (
+                            {sortedRoutes.map((route) => (
                                 <Card
                                     key={route.id}
                                     className="border-0 px-4 flex justify-between shadow-lg bg-slate-800/50 backdrop-blur-sm overflow-hidden hover:shadow-emerald-900/10 hover:shadow-xl transition-all duration-300"

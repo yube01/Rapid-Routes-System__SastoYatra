@@ -14,8 +14,6 @@ const JWT_SECRET = process.env.JWT_SECRET;
 
 const tokenExpires = new Date(Date.now() + 10 * 60 * 1000);
 
-
-
 const register = async (req: Request, res: Response): Promise<void> => {
   try {
     const newUser = req.body;
@@ -45,10 +43,7 @@ const register = async (req: Request, res: Response): Promise<void> => {
 
     const userId = insertedUser;
 
-
-
     if (insertedUser) {
-
       res
         .status(200)
         .json({ msg: "User added Sucessfully!", users: insertedUser });
@@ -80,8 +75,6 @@ const login = async (req: Request, res: Response): Promise<void> => {
 
     const user = users[0];
 
-
-
     // Compare the password with the stored password
     const isPasswordValid = await bcrypt.compare(password, user.password);
     if (!isPasswordValid) {
@@ -95,7 +88,9 @@ const login = async (req: Request, res: Response): Promise<void> => {
     });
 
     // Return the token as a response
-    res.status(200).json({ token: token, user: user.fullName });
+    res
+      .status(200)
+      .json({ token: token, user: user.fullName, isAdmin: user.isAdmin });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
@@ -105,6 +100,4 @@ const login = async (req: Request, res: Response): Promise<void> => {
   }
 };
 
-export {
-    register,login
-}
+export { register, login };

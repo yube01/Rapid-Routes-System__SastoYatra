@@ -24,4 +24,3 @@ const db = drizzle(pool);
 export default db;
 
 
-// psql -U yubraj -d sasto_yatra

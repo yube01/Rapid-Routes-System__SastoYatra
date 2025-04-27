@@ -5,6 +5,8 @@ export const popularRoutes = [
     name: "Patan Durbar Square",
     category: "spiritual",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--50-.webp",
+    searchCount: 1000,
+    lastSearchTime: new Date("2025-04-20T12:00:00Z"),
   },
   {
     id: "route2",
@@ -12,6 +14,8 @@ export const popularRoutes = [
     name: "Swayambhunath Stupa",
     category: "spiritual",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--51-.webp",
+    searchCount: 35,
+    lastSearchTime: new Date("2025-04-21T08:00:00Z"),
   },
   {
     id: "route4",
@@ -19,6 +23,8 @@ export const popularRoutes = [
     name: "Kathmandu Durbar Square",
     category: "historical",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--53-.webp",
+    searchCount: 25,
+    lastSearchTime: new Date("2025-04-19T16:30:00Z"),
   },
   {
     id: "route5",
@@ -26,6 +32,8 @@ export const popularRoutes = [
     name: "Boudhanath Stupa",
     category: "spiritual",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--54-.webp",
+    searchCount: 60,
+    lastSearchTime: new Date("2025-04-20T18:45:00Z"),
   },
   {
     id: "route6",
@@ -33,6 +41,8 @@ export const popularRoutes = [
     name: "Hiranya Varna Mahavihar",
     category: "cultural",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--55-.webp",
+    searchCount: 18,
+    lastSearchTime: new Date("2025-04-18T14:10:00Z"),
   },
   {
     id: "route7",
@@ -40,6 +50,8 @@ export const popularRoutes = [
     name: "Mahabouddha Temple",
     category: "spiritual",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--56-.webp",
+    searchCount: 22,
+    lastSearchTime: new Date("2025-04-19T10:30:00Z"),
   },
   {
     id: "route8",
@@ -47,6 +59,8 @@ export const popularRoutes = [
     name: "Garden of Dreams",
     category: "cultural",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--57-.webp",
+    searchCount: 40,
+    lastSearchTime: new Date("2025-04-20T09:15:00Z"),
   },
   {
     id: "route9",
@@ -54,6 +68,8 @@ export const popularRoutes = [
     name: "Thamel Market",
     category: "shopping",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--58-.webp",
+    searchCount: 75,
+    lastSearchTime: new Date("2025-04-21T06:50:00Z"),
   },
   {
     id: "route11",
@@ -61,5 +77,7 @@ export const popularRoutes = [
     name: "Pashupatinath Temple",
     category: "spiritual",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--60-.webp",
+    searchCount: 90,
+    lastSearchTime: new Date("2025-04-20T20:00:00Z"),
   },
 ];

@@ -1,0 +1,1 @@
+ALTER TABLE "user_data" ALTER COLUMN "isAdmin" SET DEFAULT false;
