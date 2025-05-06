@@ -3,6 +3,7 @@ import "dotenv/config";
 import bodyParser from "body-parser";
 import db from "./db";
 import authRoute from "../src/routes/auth.route";
+import locationRoute from "../src/routes/location.route";
 import cors from "cors";
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(
 );
 
 app.use("/auth", authRoute);
+app.use("/location", locationRoute);
 
 app.listen(port, async () => {
   try {

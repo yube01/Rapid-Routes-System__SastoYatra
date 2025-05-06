@@ -9,6 +9,7 @@ import Test from './page/home/test';
 import PopularDestinations from './page/home/popular';
 import HistoryPage from './page/home/history';
 import { Toaster } from './components/ui/sonner';
+import Admin from './page/home/admin';
 
 
 
@@ -42,6 +43,10 @@ function App() {
         {
           path: "/login",
           element: <Login />,
+        },
+        {
+          path: "/admin",
+          element: <Admin />,
         }
       ],
     },

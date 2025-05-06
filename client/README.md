@@ -28,3 +28,10 @@ Total Distance
  ≈1.33hours
 
 Therefore, the estimated travel time from Bhadrakali to Maharajgunj Chowk is approximately 1 hour and 20 minutes.
+
+
+{
+  "fullName":"yube",
+  "email":"yube@gmail.com",
+  "password":"yube"
+}
