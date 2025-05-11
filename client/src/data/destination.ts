@@ -1,15 +1,15 @@
-export const popularRoutes = [
+export const popularRoutess = [
   {
-    id: "route1",
+    did: 1,
     location: "Lagankhel Stop",
     name: "Patan Durbar Square",
     category: "spiritual",
     img: "https://media.sublimetrails.com/uploads/img/untitled-design--50-.webp",
-    searchCount: 1000,
+    searchCount: 0,
     lastSearchTime: new Date("2025-04-20T12:00:00Z"),
   },
   {
-    id: "route2",
+    did: 2,
     location: "Swyambhu Stop",
     name: "Swayambhunath Stupa",
     category: "spiritual",
@@ -18,7 +18,7 @@ export const popularRoutes = [
     lastSearchTime: new Date("2025-04-21T08:00:00Z"),
   },
   {
-    id: "route4",
+    did: 4,
     location: "Ratna Park",
     name: "Kathmandu Durbar Square",
     category: "historical",
@@ -27,7 +27,7 @@ export const popularRoutes = [
     lastSearchTime: new Date("2025-04-19T16:30:00Z"),
   },
   {
-    id: "route5",
+    did: 5,
     location: "Boudha",
     name: "Boudhanath Stupa",
     category: "spiritual",
@@ -36,7 +36,7 @@ export const popularRoutes = [
     lastSearchTime: new Date("2025-04-20T18:45:00Z"),
   },
   {
-    id: "route6",
+    did: 6,
     location: "Lagankhel Stop",
     name: "Hiranya Varna Mahavihar",
     category: "cultural",
@@ -45,16 +45,7 @@ export const popularRoutes = [
     lastSearchTime: new Date("2025-04-18T14:10:00Z"),
   },
   {
-    id: "route7",
-    location: "Lagankhel Stop",
-    name: "Mahabouddha Temple",
-    category: "spiritual",
-    img: "https://media.sublimetrails.com/uploads/img/untitled-design--56-.webp",
-    searchCount: 22,
-    lastSearchTime: new Date("2025-04-19T10:30:00Z"),
-  },
-  {
-    id: "route8",
+    did: 8,
     location: "Lainchaur stop",
     name: "Garden of Dreams",
     category: "cultural",
@@ -63,16 +54,7 @@ export const popularRoutes = [
     lastSearchTime: new Date("2025-04-20T09:15:00Z"),
   },
   {
-    id: "route9",
-    location: "Lainchaur stop",
-    name: "Thamel Market",
-    category: "shopping",
-    img: "https://media.sublimetrails.com/uploads/img/untitled-design--58-.webp",
-    searchCount: 75,
-    lastSearchTime: new Date("2025-04-21T06:50:00Z"),
-  },
-  {
-    id: "route11",
+    did: 1,
     location: "GaushalaChok",
     name: "Pashupatinath Temple",
     category: "spiritual",

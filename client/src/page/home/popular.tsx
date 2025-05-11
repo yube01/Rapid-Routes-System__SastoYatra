@@ -18,7 +18,6 @@ import { Button } from '@/components/ui/button'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Navigation, TrendingUp } from 'lucide-react'
 import { Navbar } from '../components/navbar'
-import { popularRoutes } from '@/data/destination'
 import { mergedGraph } from '@/routes-dataset'
 import { dijkstra } from '@/algorithm'
 import { toast } from 'sonner'
@@ -75,8 +74,60 @@ export default function PopularDestinations() {
         }
     };
 
-    useEffect(() => {
 
+    interface Route {
+        did: number;
+        name: string;
+        category: string;
+        location: string;
+        image: string;
+        searchCount: number;
+        lastTimeSearched: string;
+    }
+
+    const [popularRoutes, setPopularRoutes] = useState<Route[]>([]);
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5005/location/getLocation", {
+                    method: "GET",
+                    credentials: "include", // include cookies if needed
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
+
+                const data = await response.json();
+                console.log(data)
+                setPopularRoutes(data); // handle the fetched data
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
+
+    const updatePopularity = async (id: number) => {
+        try {
+            const response = await fetch(`http://localhost:5005/location/updateLocation/${id}`, {
+                method: "PUT",
+                credentials: "include", // include cookies if needed
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+
+            const data = await response.json();
+            console.log(data); // handle the fetched data
+        } catch (error) {
+            console.error("Fetch error:", error);
+        }
+    };
+
+    useEffect(() => {
         const totalFare = calculateTotalFare(totalDistance);
         setCost(totalFare);
     }, [totalDistance])
@@ -89,10 +140,13 @@ export default function PopularDestinations() {
         return filtered
             .map(route => ({
                 ...route,
-                score: getExponentialDecayScore(route.searchCount, route.lastSearchTime)
+                score: getExponentialDecayScore(route.searchCount, route.lastTimeSearched)
             }))
             .sort((a, b) => b.score - a.score);
-    }, [activeTab]);
+    }, [activeTab, popularRoutes]);
+
+    console.log(sortedRoutes)
+
 
     return (
         <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
@@ -117,8 +171,8 @@ export default function PopularDestinations() {
                             <TabsTrigger value="all" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
                                 All Routes
                             </TabsTrigger>
-                            <TabsTrigger value="travel" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
-                                Travel
+                            <TabsTrigger value="cultural" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
+                                Cultural
                             </TabsTrigger>
                             <TabsTrigger value="leisure" className="data-[state=active]:bg-emerald-500/20 text-white cursor-pointer data-[state=active]:text-emerald-400">
                                 Leisure
@@ -136,12 +190,14 @@ export default function PopularDestinations() {
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                             {sortedRoutes.map((route) => (
                                 <Card
-                                    key={route.id}
+                                    onClick={() => updatePopularity(route.did)
+                                    }
+                                    key={route.did}
                                     className="border-0 px-4 flex justify-between shadow-lg bg-slate-800/50 backdrop-blur-sm overflow-hidden hover:shadow-emerald-900/10 hover:shadow-xl transition-all duration-300"
                                 >
                                     <div className="w-full h-52 overflow-hidden">
                                         <img
-                                            src={route.img}
+                                            src={`/${route.image}`}
                                             alt=""
                                             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
                                         />

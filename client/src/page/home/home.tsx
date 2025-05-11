@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { allRoutes, mergedGraph } from "@/routes-dataset";
+import { mergedGraph } from "@/routes-dataset";
 import { dijkstra } from "@/algorithm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -9,22 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import RouteSection from "./route-section";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-
-
-// Assign stops to their respective routes
-const routeMappings: { [key: string]: string[] } = {};
-const routeNames = ["Route 1", "Route 2", "Route 3"];
-
-
-allRoutes.forEach((route, index) => {
-    Object.keys(route).forEach((stop) => {
-        if (!routeMappings[stop]) routeMappings[stop] = [];
-        routeMappings[stop].push(routeNames[index]);
-    });
-});
-
-// Get all unique stops for dropdown
-const allStops = Array.from(new Set([...Object.keys(mergedGraph)]));
+import { allStops, routeMappings } from "@/constants/allstops";
 
 
 
