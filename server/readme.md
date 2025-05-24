@@ -26,3 +26,6 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL PRIVILEGES ON TABLES TO yubr
 \dp user_data
 
 GRANT USAGE, SELECT ON SEQUENCE user_data_id_seq TO yubraj;
+
+
+GRANT USAGE, SELECT ON SEQUENCE history_hid_seq TO yubraj;
