@@ -23,6 +23,8 @@ import { dijkstra } from '@/algorithm'
 import { toast } from 'sonner'
 import RouteSection from './route-section';
 import { getExponentialDecayScore } from '@/algorithm/exponentialDecayScore';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { allStops } from '@/constants/allstops';
 
 
 
@@ -148,9 +150,54 @@ export default function PopularDestinations() {
     console.log(sortedRoutes)
 
 
+    const [open, setOpen] = useState<boolean>(false)
+
+    const currentLocation = localStorage.getItem("location");
+
+
+    useEffect(() => {
+
+        if (localStorage.getItem("location") === null) {
+            setOpen(true)
+        }
+    }, [])
+
+    const [source, setSource] = useState<string>("Bhadrakali");
+
+
+
+
     return (
         <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
             <Navbar />
+
+            <Dialog open={open} onOpenChange={setOpen}>
+                <DialogContent className=' bg-black'>
+                    <DialogHeader>
+                        <DialogTitle>Select Your Location</DialogTitle>
+                    </DialogHeader>
+                    <div className="space-y-3">
+                        <Select value={source} onValueChange={(value) => {
+                            setSource(value)
+                            localStorage.setItem("location", value) // Save to localStorage
+                            setOpen(false)                          // Close the modal
+                        }}>
+                            <SelectTrigger id="source" className="w-full text-white border-slate-600">
+                                <SelectValue className=" text-white" placeholder="Select starting point" />
+                            </SelectTrigger>
+                            <SelectContent className="bg-black text-white border-slate-600">
+                                {allStops.map((stop) => (
+                                    <SelectItem key={stop} value={stop}>
+                                        <div>
+                                            <div>{stop}</div>
+                                        </div>
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    </div>
+                </DialogContent>
+            </Dialog>
 
             <header className="pt-16 pb-12 px-4 text-center">
                 <div className="container mx-auto max-w-3xl">
@@ -218,7 +265,11 @@ export default function PopularDestinations() {
                                         <DialogTrigger asChild>
                                             <Button
                                                 onClick={() => {
-                                                    findRoute("Bhadrakali", route.location);
+                                                    if (currentLocation) {
+                                                        findRoute(currentLocation, route.location);
+                                                    } else {
+                                                        toast.error("Please select your current location first.");
+                                                    }
                                                 }}
                                                 variant="outline"
                                                 size="sm"
