@@ -9,7 +9,7 @@ import { Link } from "react-router-dom"
 const navItems = [
     {
         name: "Home",
-        to: "/test",
+        to: "/",
         icon: <Home className="text-white h-4 w-4" />
         ,
     },

@@ -45,7 +45,7 @@ const BusRouteFinder: React.FC = () => {
     const [cost, setCost] = useState<number>(0);
     const [transferPoints, setTransferPoints] = useState<string[]>([]);
 
-    console.log(allStops)
+    // console.log(allStops)
 
     const findRoute = () => {
         if (source === destination) {
@@ -83,7 +83,7 @@ const BusRouteFinder: React.FC = () => {
         } else if (totalDistance <= 15) {
             return 30;
         } else if (totalDistance <= 20) {
-            return 33;
+            return 35;
         } else {
             // Optionally handle totalDistances greater than 20 km
             // For now, you can return a base + additional rate
@@ -95,7 +95,7 @@ const BusRouteFinder: React.FC = () => {
 
     useEffect(() => {
 
-        if (localStorage.getItem("access_token") === null) {
+        if (localStorage.getItem("user_info") === null) {
             navigate("/login")
         }
         const totalFare = calculateTotalFare(totalDistance);

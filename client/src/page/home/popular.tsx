@@ -280,7 +280,7 @@ export default function PopularDestinations() {
                                             </Button>
                                         </DialogTrigger>
 
-                                        <DialogContent className="max-h-[90vh] overflow-y-auto min-w-[40rem] bg-slate-900 border border-emerald-500/30">
+                                        <DialogContent className="max-h-[90vh] overflow-y-auto min-w-[60rem] bg-slate-900 border border-emerald-500/30">
                                             <DialogHeader >
                                                 <DialogTitle className="text-emerald-400 w-[20rem]">Route Details</DialogTitle>
                                                 <RouteSection

@@ -5,7 +5,6 @@ import BusRouteFinder from './page/home/home';
 import CenterLayout from './page/CenterLayout';
 import Register from './page/auth/register';
 import Login from './page/auth/login';
-import Test from './page/home/test';
 import PopularDestinations from './page/home/popular';
 import HistoryPage from './page/home/history';
 import { Toaster } from './components/ui/sonner';
@@ -19,10 +18,6 @@ function App() {
     {
       path: "/",
       element: <BusRouteFinder />,
-    },
-    {
-      path: "/test",
-      element: <Test />,
     },
     {
       path: "/popular",

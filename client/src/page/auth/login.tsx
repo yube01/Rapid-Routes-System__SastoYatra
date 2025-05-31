@@ -15,7 +15,7 @@ const LoginSchema = z.object({
     email: z.string().email({
         message: "Please enter a valid email address"
     }),
-    password: z.string().min(8, {
+    password: z.string().min(4, {
         message: "Password must be at least 8 characters long"
     })
 })
@@ -55,7 +55,7 @@ const Login: React.FC = () => {
     const handleSubmitClick = loginForm.handleSubmit(async (data) => {
         const { email, password } = data;
         setIsLoading(false);
-        console.log(email, password);
+        // console.log(email, password);
 
         const response = await fetch(`http://localhost:5005/auth/login`, {
             method: "POST",
@@ -67,7 +67,12 @@ const Login: React.FC = () => {
         })
 
         const datas = await response.json();
+        if (datas.isAdmin) {
+            navigate("/admin")
+            return;
+        }
         if (datas.user) {
+            localStorage.setItem("user_info", datas.id)
             navigate("/")
         } else {
             toast(datas.message)

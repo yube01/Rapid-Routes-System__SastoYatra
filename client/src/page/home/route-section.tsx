@@ -2,8 +2,9 @@
 
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Clock, Navigation, Banknote, Route } from "lucide-react"
+import { MapPin, Clock, Banknote, Route, Save } from "lucide-react"
 import { motion } from "framer-motion"
+import { toast } from "sonner"
 
 
 interface RouteSectionProps {
@@ -13,6 +14,7 @@ interface RouteSectionProps {
   totalTime?: string
   totalDistance?: string
   totalCost?: number
+
 }
 
 export default function RouteSection({
@@ -41,6 +43,24 @@ export default function RouteSection({
     show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   }
 
+  const handleSubmitClick = (async (id: string, source: string, destination: string) => {
+    const response = await fetch(`http://localhost:5005/history/createHistory`, {
+      method: "POST",
+      body: JSON.stringify({ id, source, destination }),
+      credentials: "include",
+      headers: {
+        "Content-Type": "application/json"
+      },
+    })
+
+    const datas = await response.json();
+    if (datas.msg === "Location added Sucessfully!") {
+      toast("Route saved successfully!")
+    }
+  });
+
+  const id = localStorage.getItem("user_info") || ""
+
   return (
     <motion.div
       id="route-section"
@@ -51,9 +71,13 @@ export default function RouteSection({
     >
       <div className="flex items-center justify-between mb-6">
         <h2 className="text-2xl font-semibold">Your Route</h2>
-        <Badge variant="outline" className="bg-emerald-500/10 text-emerald-400 border-emerald-500/30 px-3 py-1">
-          <Navigation className="mr-1 h-4 w-4" />
-          Fastest Route
+        <Badge
+          onClick={() => handleSubmitClick(id, route[0], route[route.length - 1])}
+          variant="outline"
+          className="bg-emerald-500/10 hover:bg-emerald-900/10 cursor-pointer h-10 text-sm text-emerald-400  border-emerald-500/30 px-3 py-1"
+        >
+          <Save size={20} />
+          Save Route
         </Badge>
       </div>
 
@@ -171,7 +195,7 @@ export default function RouteSection({
                 </div>
                 <div className=" text-white">
                   <div className="text-sm text-slate-400">Estimated Travel Time</div>
-                  <div className="font-medium text-lg">{totalTime}</div>
+                  <div className="font-medium text-lg">{totalTime} min</div>
                 </div>
               </div>
 
@@ -181,7 +205,7 @@ export default function RouteSection({
                 </div>
                 <div className=" text-white">
                   <div className="text-sm text-slate-400">Total Distance</div>
-                  <div className="font-medium text-lg">{totalDistance}</div>
+                  <div className="font-medium text-lg">{totalDistance} km</div>
                 </div>
               </div>
 

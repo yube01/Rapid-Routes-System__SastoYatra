@@ -90,7 +90,12 @@ const login = async (req: Request, res: Response): Promise<void> => {
     // Return the token as a response
     res
       .status(200)
-      .json({ token: token, user: user.fullName, isAdmin: user.isAdmin });
+      .json({
+        token: token,
+        user: user.fullName,
+        id: user.id,
+        isAdmin: user.isAdmin,
+      });
   } catch (error) {
     if (error instanceof Error) {
       res.status(500).json({ message: error.message });
