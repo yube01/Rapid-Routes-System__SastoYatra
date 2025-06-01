@@ -1,6 +1,6 @@
 
 import { useState } from "react"
-import { Menu, MapPin, Home, History, TrendingUp } from "lucide-react"
+import { Menu, MapPin, Home, History, TrendingUp, Settings } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { cn } from "@/lib/utils"
@@ -22,6 +22,11 @@ const navItems = [
         name: "History",
         to: "/history",
         icon: <History className=" text-white h-5 w-5" />,
+    },
+    {
+        name: "Admin",
+        to: "/admin",
+        icon: <Settings className=" text-white h-5 w-5" />,
     },
 ]
 
@@ -78,9 +83,7 @@ export function Navbar() {
                         <Link
                             key={index}
                             to={item.to}
-                            className={cn(
-                                "flex items-center gap-2 text-inherit text-sm font-medium",
-                            )}
+                            className="flex items-center gap-1 px-2 py-1 sm:px-3 sm:py-2 rounded-md hover:bg-slate-800 text-slate-300 hover:text-white"
                         >
                             {item.icon}
                             <p className=" text-white">{item.name}</p>

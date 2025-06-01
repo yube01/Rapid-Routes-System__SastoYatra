@@ -1,185 +1,3 @@
-// import React, { useState } from 'react'
-// import { Button } from '@/components/ui/button'
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-// import { Input } from '@/components/ui/input'
-// import { Loader } from 'lucide-react'
-// import { useNavigate } from "react-router-dom"
-
-// import { toast } from 'sonner'
-// import { allStops } from '@/constants/allstops';
-
-
-
-
-
-
-// const Admin: React.FC = () => {
-
-
-//     const [isLoading, setIsLoading] = useState<boolean>(false);
-//     // const [authLoading, setAuthLoading] = useState<boolean>(false)
-
-
-
-//     const navigate = useNavigate();
-
-
-
-
-
-
-
-
-//     const handleSubmitClick = locationForm.handleSubmit(async (data) => {
-//         const { location, name, category, image } = data;
-//         setIsLoading(false);
-
-//         const response = await fetch(`http://localhost:5005/location/addLocation`, {
-//             method: "POST",
-//             body: JSON.stringify({ location, name, category, image }),
-//             credentials: "include",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//         })
-
-//         const datas = await response.json();
-//         if (datas.user) {
-//             navigate("/")
-//         } else {
-//             toast(datas.msg)
-//         }
-//     });
-
-//     return (
-//         <div className="sm:py-8 md:py-[3.75rem]">
-//             <div className="sm:px-6 sm:py-8 ">
-//                 <div className="space-y-9  mx-auto">
-//                     {/* <img src="/board.png" className=' w-52 h-52' alt="" /> */}
-//                     <div className="space-y-6">
-//                         <div className="space-y-2">
-//                             <h1 className="font-semibold text-2xl flex justify-between">Add Destination</h1>
-//                         </div>
-//                         <div className="space-y-5">
-//                             <div className="space-y-4">
-// <Form {...locationForm}>
-//     <form className="space-y-4" >
-//         <FormField
-//             control={locationForm.control}
-//             name="location"
-//             render={({ field }) => (
-//                 <FormItem className=' cursor-pointer'>
-//                     <FormLabel className="flex justify-between">Location</FormLabel>
-//                     <FormControl className="cursor-pointer">
-//                         <Select onValueChange={field.onChange}
-//                             defaultValue={field.value}>
-//                             <SelectTrigger id="source" className="w-full cursor-pointer text-white border-slate-600">
-//                                 <SelectValue className=" text-white" placeholder="Select starting point" />
-//                             </SelectTrigger>
-//                             <SelectContent className="bg-slate-700 cursor-pointer text-white border-slate-600">
-//                                 {allStops.map((stop) => (
-//                                     <SelectItem className="cursor-pointer" key={stop} value={stop}>
-//                                         <div>
-//                                             <div>{stop}</div>
-//                                         </div>
-//                                     </SelectItem>
-//                                 ))}
-//                             </SelectContent>
-//                         </Select>
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-
-//         <FormField
-//             control={locationForm.control}
-//             name="name"
-//             render={({ field }) => (
-//                 <FormItem>
-//                     <FormLabel className="flex justify-between">Name</FormLabel>
-//                     <FormControl>
-//                         <Input {...field} type="text" />
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-//         <FormField
-//             control={locationForm.control}
-//             name="category"
-//             render={({ field }) => (
-//                 <FormItem className=' cursor-pointer'>
-//                     <FormLabel>Category</FormLabel>
-//                     <FormControl>
-//                         <Select
-//                             onValueChange={field.onChange}
-//                             defaultValue={field.value}
-//                         >
-//                             <SelectTrigger className='w-full cursor-pointer'>
-//                                 <SelectValue className="cursor-pointer" placeholder="Select category" />
-//                             </SelectTrigger>
-//                             <SelectContent className="bg-slate-700 text-white border-slate-600 cursor-pointer">
-//                                 <SelectItem className="cursor-pointer" value="spiritual">Spiritual</SelectItem>
-//                                 <SelectItem className="cursor-pointer" value="cultural">Cultural</SelectItem>
-//                                 <SelectItem className="cursor-pointer" value="natural">Natural</SelectItem>
-//                                 <SelectItem className="cursor-pointer" value="historical">Historical</SelectItem>
-//                             </SelectContent>
-//                         </Select>
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-//         <FormField
-//             control={locationForm.control}
-//             name="image"
-//             render={({ field }) => (
-//                 <FormItem className=' cursor-pointer'
-//                 >
-//                     <FormLabel>Image</FormLabel>
-//                     <FormControl>
-//                         <Input
-//                             type="file"
-//                             className='bg-white text-black cursor-pointer'
-//                             accept="image/*"
-//                             onChange={(e) => {
-//                                 const file = e.target.files?.[0];
-//                                 field.onChange(file?.name);
-//                             }}
-//                         />
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-//     </form>
-// </Form>
-//                             </div>
-
-//                             <div>
-//                                 {isLoading ?
-//                                     <Button className="w-full py-[0.625rem] px-[0.875rem]">
-//                                         <Loader className="h-6 animate-spin" />
-//                                     </Button>
-//                                     :
-//                                     <Button className="w-full cursor-pointer py-[0.625rem] px-[0.875rem] bg-emerald-500 hover:bg-emerald-600" onClick={handleSubmitClick}>
-//                                         Add
-//                                     </Button>
-//                                 }
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Admin
-
-
-
 "use client"
 
 import { useState } from "react"
@@ -210,15 +28,9 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Settings, Plus, Edit, Trash2, TrendingUp, Save, X } from "lucide-react"
+import { Settings, Plus, Edit, Trash2, MapPin, TrendingUp, Save, X } from "lucide-react"
 import { motion } from "framer-motion"
 import { toast } from "sonner"
-import { Navbar } from "../components/navbar"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
-import { useForm } from 'react-hook-form'
-import { z } from "zod";
-import { zodResolver } from '@hookform/resolvers/zod'
-import { allStops } from "@/constants/allstops"
 
 // Sample location data
 const locations = [
@@ -440,27 +252,8 @@ export default function AdminPanel() {
         }
     }
 
-    const LocationSchema = z.object({
-        location: z.string().min(1, { message: "Location is required" }),
-        name: z.string().min(1, { message: "Name is required" }),
-        category: z.string().min(1, { message: "Category is required" }),
-        image: z.string().min(1, { message: "Image is required" })
-    });
-
-
-    const locationForm = useForm({
-        resolver: zodResolver(LocationSchema),
-        defaultValues: {
-            location: "",
-            name: "",
-            category: "",
-            image: "",
-        },
-    });
-
     return (
-        <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
-            <Navbar />
+        <div className="min-h-screen bg-gradient-to-b from-slate-900 to-slate-800 text-white">
             <header className="pt-16 pb-12 px-4 text-center">
                 <div className="container mx-auto max-w-3xl">
                     <div className="inline-block p-2 bg-slate-800/50 rounded-full mb-4">
@@ -477,14 +270,14 @@ export default function AdminPanel() {
                         <TabsList className="bg-slate-800/50 backdrop-blur-sm">
                             <TabsTrigger
                                 value="add"
-                                className="data-[state=active]:bg-emerald-500/20 cursor-pointer text-white data-[state=active]:text-emerald-400"
+                                className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400"
                             >
                                 <Plus className="mr-2 h-4 w-4" />
                                 Add Destination
                             </TabsTrigger>
                             <TabsTrigger
                                 value="manage"
-                                className="data-[state=active]:bg-emerald-500/20 cursor-pointer text-white data-[state=active]:text-emerald-400"
+                                className="data-[state=active]:bg-emerald-500/20 data-[state=active]:text-emerald-400"
                             >
                                 <TrendingUp className="mr-2 h-4 w-4" />
                                 Manage Routes
@@ -502,103 +295,136 @@ export default function AdminPanel() {
                                     </CardDescription>
                                 </CardHeader>
                                 <CardContent className="space-y-6">
-                                    <Form {...locationForm}>
-                                        <form className="space-4 text-white gap-2 flex items-center justify-center" >
-                                            <div className=" flex gap-2 flex-col">
-                                                <FormField
-                                                    control={locationForm.control}
-                                                    name="location"
-                                                    render={({ field }) => (
-                                                        <FormItem className=' cursor-pointer'>
-                                                            <FormLabel className="flex justify-between">Location</FormLabel>
-                                                            <FormControl className="cursor-pointer">
-                                                                <Select onValueChange={field.onChange}
-                                                                    defaultValue={field.value}>
-                                                                    <SelectTrigger id="source" className="w-full cursor-pointer text-white border-slate-600">
-                                                                        <SelectValue className=" text-white" placeholder="Select starting point" />
-                                                                    </SelectTrigger>
-                                                                    <SelectContent className="bg-slate-700 cursor-pointer text-white border-slate-600">
-                                                                        {allStops.map((stop) => (
-                                                                            <SelectItem className="cursor-pointer" key={stop} value={stop}>
-                                                                                <div>
-                                                                                    <div>{stop}</div>
-                                                                                </div>
-                                                                            </SelectItem>
-                                                                        ))}
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="add-source" className="text-sm font-medium flex items-center gap-2">
+                                                <MapPin className="h-4 w-4 text-emerald-400" />
+                                                Source Location
+                                            </Label>
+                                            <Select
+                                                value={newRoute.source}
+                                                onValueChange={(value) => setNewRoute({ ...newRoute, source: value })}
+                                            >
+                                                <SelectTrigger className="bg-slate-700 border-slate-600">
+                                                    <SelectValue placeholder="Select source location" />
+                                                </SelectTrigger>
+                                                <SelectContent className="bg-slate-700 text-white border-slate-600">
+                                                    {locations.map((location) => (
+                                                        <SelectItem key={location.id} value={location.id}>
+                                                            <div>
+                                                                <div>{location.name}</div>
+                                                                <div className="text-xs text-slate-400">{location.description}</div>
+                                                            </div>
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
 
-                                                <FormField
-                                                    control={locationForm.control}
-                                                    name="name"
-                                                    render={({ field }) => (
-                                                        <FormItem>
-                                                            <FormLabel className="flex justify-between">Name</FormLabel>
-                                                            <FormControl>
-                                                                <Input {...field} type="text" />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                            <div className=" flex gap-2 flex-col">
-                                                <FormField
-                                                    control={locationForm.control}
-                                                    name="category"
-                                                    render={({ field }) => (
-                                                        <FormItem className=' cursor-pointer'>
-                                                            <FormLabel>Category</FormLabel>
-                                                            <FormControl>
-                                                                <Select
-                                                                    onValueChange={field.onChange}
-                                                                    defaultValue={field.value}
-                                                                >
-                                                                    <SelectTrigger className='w-full cursor-pointer'>
-                                                                        <SelectValue className="cursor-pointer" placeholder="Select category" />
-                                                                    </SelectTrigger>
-                                                                    <SelectContent className="bg-slate-700 text-white border-slate-600 cursor-pointer">
-                                                                        <SelectItem className="cursor-pointer" value="spiritual">Spiritual</SelectItem>
-                                                                        <SelectItem className="cursor-pointer" value="cultural">Cultural</SelectItem>
-                                                                        <SelectItem className="cursor-pointer" value="natural">Natural</SelectItem>
-                                                                        <SelectItem className="cursor-pointer" value="historical">Historical</SelectItem>
-                                                                    </SelectContent>
-                                                                </Select>
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                                <FormField
-                                                    control={locationForm.control}
-                                                    name="image"
-                                                    render={({ field }) => (
-                                                        <FormItem className=' cursor-pointer'
-                                                        >
-                                                            <FormLabel>Image</FormLabel>
-                                                            <FormControl>
-                                                                <Input
-                                                                    type="file"
-                                                                    className='bg-white text-black cursor-pointer'
-                                                                    accept="image/*"
-                                                                    onChange={(e) => {
-                                                                        const file = e.target.files?.[0];
-                                                                        field.onChange(file?.name);
-                                                                    }}
-                                                                />
-                                                            </FormControl>
-                                                            <FormMessage />
-                                                        </FormItem>
-                                                    )}
-                                                />
-                                            </div>
-                                        </form>
-                                    </Form>
+                                        <div className="space-y-2">
+                                            <Label htmlFor="add-destination" className="text-sm font-medium flex items-center gap-2">
+                                                <MapPin className="h-4 w-4 text-emerald-400" />
+                                                Destination Location
+                                            </Label>
+                                            <Select
+                                                value={newRoute.destination}
+                                                onValueChange={(value) => setNewRoute({ ...newRoute, destination: value })}
+                                            >
+                                                <SelectTrigger className="bg-slate-700 border-slate-600">
+                                                    <SelectValue placeholder="Select destination location" />
+                                                </SelectTrigger>
+                                                <SelectContent className="bg-slate-700 text-white border-slate-600">
+                                                    {locations.map((location) => (
+                                                        <SelectItem key={location.id} value={location.id}>
+                                                            <div>
+                                                                <div>{location.name}</div>
+                                                                <div className="text-xs text-slate-400">{location.description}</div>
+                                                            </div>
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="add-distance">Distance (km)</Label>
+                                            <Input
+                                                id="add-distance"
+                                                type="number"
+                                                step="0.1"
+                                                placeholder="e.g., 12.5"
+                                                className="bg-slate-700 border-slate-600"
+                                                value={newRoute.distance}
+                                                onChange={(e) => setNewRoute({ ...newRoute, distance: e.target.value })}
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="add-time">Travel Time (minutes)</Label>
+                                            <Input
+                                                id="add-time"
+                                                type="number"
+                                                placeholder="e.g., 35"
+                                                className="bg-slate-700 border-slate-600"
+                                                value={newRoute.time}
+                                                onChange={(e) => setNewRoute({ ...newRoute, time: e.target.value })}
+                                            />
+                                        </div>
+                                    </div>
+
+                                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                                        <div className="space-y-2">
+                                            <Label htmlFor="add-popularity">Popularity Level</Label>
+                                            <Select
+                                                value={newRoute.popularity}
+                                                onValueChange={(value) => setNewRoute({ ...newRoute, popularity: value })}
+                                            >
+                                                <SelectTrigger className="bg-slate-700 border-slate-600">
+                                                    <SelectValue placeholder="Select popularity" />
+                                                </SelectTrigger>
+                                                <SelectContent className="bg-slate-700 text-white border-slate-600">
+                                                    {popularityLevels.map((level) => (
+                                                        <SelectItem key={level} value={level}>
+                                                            {level}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="add-searches">Search Count</Label>
+                                            <Input
+                                                id="add-searches"
+                                                type="number"
+                                                placeholder="e.g., 1500"
+                                                className="bg-slate-700 border-slate-600"
+                                                value={newRoute.searches}
+                                                onChange={(e) => setNewRoute({ ...newRoute, searches: e.target.value })}
+                                            />
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <Label htmlFor="add-category">Category</Label>
+                                            <Select
+                                                value={newRoute.category}
+                                                onValueChange={(value) => setNewRoute({ ...newRoute, category: value })}
+                                            >
+                                                <SelectTrigger className="bg-slate-700 border-slate-600">
+                                                    <SelectValue placeholder="Select category" />
+                                                </SelectTrigger>
+                                                <SelectContent className="bg-slate-700 text-white border-slate-600">
+                                                    {categories.map((category) => (
+                                                        <SelectItem key={category} value={category}>
+                                                            {category.charAt(0).toUpperCase() + category.slice(1)}
+                                                        </SelectItem>
+                                                    ))}
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
+                                    </div>
 
                                     <div className="flex justify-end">
                                         <Button onClick={handleAddRoute} className="bg-emerald-500 hover:bg-emerald-600 text-white px-8">
@@ -625,9 +451,11 @@ export default function AdminPanel() {
                                         <Table>
                                             <TableHeader>
                                                 <TableRow className="border-slate-700 hover:bg-slate-700/50">
-                                                    <TableHead className="text-slate-300">Image</TableHead>
-                                                    <TableHead className="text-slate-300">Name</TableHead>
-                                                    <TableHead className="text-slate-300">Location</TableHead>
+                                                    <TableHead className="text-slate-300">Route</TableHead>
+                                                    <TableHead className="text-slate-300">Distance</TableHead>
+                                                    <TableHead className="text-slate-300">Time</TableHead>
+                                                    <TableHead className="text-slate-300">Popularity</TableHead>
+                                                    <TableHead className="text-slate-300">Searches</TableHead>
                                                     <TableHead className="text-slate-300">Category</TableHead>
                                                     <TableHead className="text-slate-300">Actions</TableHead>
                                                 </TableRow>
@@ -636,24 +464,27 @@ export default function AdminPanel() {
                                                 {popularRoutes.map((route) => (
                                                     <TableRow key={route.id} className="border-slate-700 hover:bg-slate-700/30">
                                                         <TableCell>
-                                                            <div className="font-medium text-white text-start">
-                                                                {route.destination.name}
+                                                            <div>
+                                                                <div className="font-medium">
+                                                                    {route.source.name} → {route.destination.name}
+                                                                </div>
+                                                                <div className="text-sm text-slate-400">
+                                                                    {route.source.description} to {route.destination.description}
+                                                                </div>
                                                             </div>
                                                         </TableCell>
+                                                        <TableCell>{route.distance} km</TableCell>
+                                                        <TableCell>{route.time} min</TableCell>
                                                         <TableCell>
-                                                            <div className=" flex items-center justify-start">
-                                                                <Badge variant="outline" className="bg-slate-700/50 text-slate-300 border-slate-600">
-                                                                    {route.category}
-                                                                </Badge>
-                                                            </div>
+                                                            <Badge variant="outline" className={getPriorityColor(route.popularity)}>
+                                                                {route.popularity}
+                                                            </Badge>
                                                         </TableCell>
-                                                        <TableCell className=" text-start text-white">{route.searches.toLocaleString()}</TableCell>
+                                                        <TableCell>{route.searches.toLocaleString()}</TableCell>
                                                         <TableCell>
-                                                            <div className=" flex items-center justify-start">
-                                                                <Badge variant="outline" className="bg-slate-700/50 text-slate-300 border-slate-600">
-                                                                    {route.category}
-                                                                </Badge>
-                                                            </div>
+                                                            <Badge variant="outline" className="bg-slate-700/50 text-slate-300 border-slate-600">
+                                                                {route.category}
+                                                            </Badge>
                                                         </TableCell>
                                                         <TableCell>
                                                             <div className="flex items-center gap-2">
