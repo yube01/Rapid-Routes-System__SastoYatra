@@ -1,192 +1,7 @@
-// import React, { useState } from 'react'
-// import { Button } from '@/components/ui/button'
-// import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-// import { Input } from '@/components/ui/input'
-// import { Loader } from 'lucide-react'
-// import { useNavigate } from "react-router-dom"
-
-// import { toast } from 'sonner'
-// import { allStops } from '@/constants/allstops';
-
-
-
-
-
-
-// const Admin: React.FC = () => {
-
-
-//     const [isLoading, setIsLoading] = useState<boolean>(false);
-//     // const [authLoading, setAuthLoading] = useState<boolean>(false)
-
-
-
-//     const navigate = useNavigate();
-
-
-
-
-
-
-
-
-//     const handleSubmitClick = locationForm.handleSubmit(async (data) => {
-//         const { location, name, category, image } = data;
-//         setIsLoading(false);
-
-//         const response = await fetch(`http://localhost:5005/location/addLocation`, {
-//             method: "POST",
-//             body: JSON.stringify({ location, name, category, image }),
-//             credentials: "include",
-//             headers: {
-//                 "Content-Type": "application/json"
-//             },
-//         })
-
-//         const datas = await response.json();
-//         if (datas.user) {
-//             navigate("/")
-//         } else {
-//             toast(datas.msg)
-//         }
-//     });
-
-//     return (
-//         <div className="sm:py-8 md:py-[3.75rem]">
-//             <div className="sm:px-6 sm:py-8 ">
-//                 <div className="space-y-9  mx-auto">
-//                     {/* <img src="/board.png" className=' w-52 h-52' alt="" /> */}
-//                     <div className="space-y-6">
-//                         <div className="space-y-2">
-//                             <h1 className="font-semibold text-2xl flex justify-between">Add Destination</h1>
-//                         </div>
-//                         <div className="space-y-5">
-//                             <div className="space-y-4">
-// <Form {...locationForm}>
-//     <form className="space-y-4" >
-//         <FormField
-//             control={locationForm.control}
-//             name="location"
-//             render={({ field }) => (
-//                 <FormItem className=' cursor-pointer'>
-//                     <FormLabel className="flex justify-between">Location</FormLabel>
-//                     <FormControl className="cursor-pointer">
-//                         <Select onValueChange={field.onChange}
-//                             defaultValue={field.value}>
-//                             <SelectTrigger id="source" className="w-full cursor-pointer text-white border-slate-600">
-//                                 <SelectValue className=" text-white" placeholder="Select starting point" />
-//                             </SelectTrigger>
-//                             <SelectContent className="bg-slate-700 cursor-pointer text-white border-slate-600">
-//                                 {allStops.map((stop) => (
-//                                     <SelectItem className="cursor-pointer" key={stop} value={stop}>
-//                                         <div>
-//                                             <div>{stop}</div>
-//                                         </div>
-//                                     </SelectItem>
-//                                 ))}
-//                             </SelectContent>
-//                         </Select>
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-
-//         <FormField
-//             control={locationForm.control}
-//             name="name"
-//             render={({ field }) => (
-//                 <FormItem>
-//                     <FormLabel className="flex justify-between">Name</FormLabel>
-//                     <FormControl>
-//                         <Input {...field} type="text" />
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-//         <FormField
-//             control={locationForm.control}
-//             name="category"
-//             render={({ field }) => (
-//                 <FormItem className=' cursor-pointer'>
-//                     <FormLabel>Category</FormLabel>
-//                     <FormControl>
-//                         <Select
-//                             onValueChange={field.onChange}
-//                             defaultValue={field.value}
-//                         >
-//                             <SelectTrigger className='w-full cursor-pointer'>
-//                                 <SelectValue className="cursor-pointer" placeholder="Select category" />
-//                             </SelectTrigger>
-//                             <SelectContent className="bg-slate-700 text-white border-slate-600 cursor-pointer">
-//                                 <SelectItem className="cursor-pointer" value="spiritual">Spiritual</SelectItem>
-//                                 <SelectItem className="cursor-pointer" value="cultural">Cultural</SelectItem>
-//                                 <SelectItem className="cursor-pointer" value="natural">Natural</SelectItem>
-//                                 <SelectItem className="cursor-pointer" value="historical">Historical</SelectItem>
-//                             </SelectContent>
-//                         </Select>
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-//         <FormField
-//             control={locationForm.control}
-//             name="image"
-//             render={({ field }) => (
-//                 <FormItem className=' cursor-pointer'
-//                 >
-//                     <FormLabel>Image</FormLabel>
-//                     <FormControl>
-//                         <Input
-//                             type="file"
-//                             className='bg-white text-black cursor-pointer'
-//                             accept="image/*"
-//                             onChange={(e) => {
-//                                 const file = e.target.files?.[0];
-//                                 field.onChange(file?.name);
-//                             }}
-//                         />
-//                     </FormControl>
-//                     <FormMessage />
-//                 </FormItem>
-//             )}
-//         />
-//     </form>
-// </Form>
-//                             </div>
-
-//                             <div>
-//                                 {isLoading ?
-//                                     <Button className="w-full py-[0.625rem] px-[0.875rem]">
-//                                         <Loader className="h-6 animate-spin" />
-//                                     </Button>
-//                                     :
-//                                     <Button className="w-full cursor-pointer py-[0.625rem] px-[0.875rem] bg-emerald-500 hover:bg-emerald-600" onClick={handleSubmitClick}>
-//                                         Add
-//                                     </Button>
-//                                 }
-//                             </div>
-//                         </div>
-//                     </div>
-//                 </div>
-//             </div>
-//         </div>
-//     )
-// }
-
-// export default Admin
-
-
-
-"use client"
-
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -212,233 +27,54 @@ import {
 } from "@/components/ui/alert-dialog"
 import { Settings, Plus, Edit, Trash2, TrendingUp, Save, X } from "lucide-react"
 import { motion } from "framer-motion"
-import { toast } from "sonner"
 import { Navbar } from "../components/navbar"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form'
 import { useForm } from 'react-hook-form'
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { allStops } from "@/constants/allstops"
+import { toast } from "sonner"
 
-// Sample location data
-const locations = [
-    { id: "loc1", name: "Downtown", description: "City Center" },
-    { id: "loc2", name: "Airport", description: "International Terminal" },
-    { id: "loc3", name: "University", description: "Main Campus" },
-    { id: "loc4", name: "Shopping Mall", description: "Central Mall" },
-    { id: "loc5", name: "Beach", description: "Coastal Area" },
-]
-
-// Initial popular routes data
-const initialPopularRoutes = [
-    {
-        id: "route1",
-        source: { id: "loc1", name: "Downtown", description: "City Center" },
-        destination: { id: "loc5", name: "Beach", description: "Coastal Area" },
-        distance: "12.5",
-        time: "35",
-        popularity: "Very High",
-        searches: 2453,
-        category: "leisure",
-    },
-    {
-        id: "route2",
-        source: { id: "loc2", name: "Airport", description: "International Terminal" },
-        destination: { id: "loc1", name: "Downtown", description: "City Center" },
-        distance: "18.2",
-        time: "45",
-        popularity: "High",
-        searches: 1876,
-        category: "travel",
-    },
-    {
-        id: "route3",
-        source: { id: "loc1", name: "Downtown", description: "City Center" },
-        destination: { id: "loc3", name: "University", description: "Main Campus" },
-        distance: "5.8",
-        time: "15",
-        popularity: "High",
-        searches: 1654,
-        category: "education",
-    },
-]
-
-interface PopularRoute {
-    id: string
-    source: { id: string; name: string; description: string }
-    destination: { id: string; name: string; description: string }
-    distance: string
-    time: string
-    popularity: string
-    searches: number
-    category: string
+interface Route {
+    did: number;
+    name: string;
+    category: string;
+    location: string;
+    image: string;
+    searchCount: number;
+    lastTimeSearched: string;
 }
 
 export default function AdminPanel() {
-    const [popularRoutes, setPopularRoutes] = useState<PopularRoute[]>(initialPopularRoutes)
-    const [editingRoute, setEditingRoute] = useState<PopularRoute | null>(null)
+    const [popularRoutes, setPopularRoutes] = useState<Route[]>([]);
+    const [editingRoute, setEditingRoute] = useState<Route | null>(null)
     const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
 
-    // Form state for adding new route
-    const [newRoute, setNewRoute] = useState({
-        source: "",
-        destination: "",
-        distance: "",
-        time: "",
-        popularity: "",
-        searches: "",
-        category: "",
-    })
+    // Image preview states
+    const [addImagePreview, setAddImagePreview] = useState<string>("")
+    const [editImagePreview, setEditImagePreview] = useState<string>("")
 
-    // Form state for editing route
-    const [editForm, setEditForm] = useState({
-        source: "",
-        destination: "",
-        distance: "",
-        time: "",
-        popularity: "",
-        searches: "",
-        category: "",
-    })
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await fetch("http://localhost:5005/location/getLocation", {
+                    method: "GET",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                });
 
-    const categories = ["travel", "leisure", "education", "shopping", "business"]
-    const popularityLevels = ["Low", "Medium", "High", "Very High"]
+                const data = await response.json();
+                console.log(data)
+                setPopularRoutes(data);
+            } catch (error) {
+                console.error("Fetch error:", error);
+            }
+        };
 
-    const handleAddRoute = () => {
-        if (
-            !newRoute.source ||
-            !newRoute.destination ||
-            !newRoute.distance ||
-            !newRoute.time ||
-            !newRoute.popularity ||
-            !newRoute.searches ||
-            !newRoute.category
-        ) {
-            toast(
-                "Please fill in all fields",
-            )
-            return
-        }
-
-        if (newRoute.source === newRoute.destination) {
-            toast("Source and destination cannot be the same")
-            return
-        }
-
-        const sourceLocation = locations.find((l) => l.id === newRoute.source)
-        const destinationLocation = locations.find((l) => l.id === newRoute.destination)
-
-        if (!sourceLocation || !destinationLocation) {
-            toast("Invalid source or destination")
-            return
-        }
-
-        const route: PopularRoute = {
-            id: `route${Date.now()}`,
-            source: sourceLocation,
-            destination: destinationLocation,
-            distance: newRoute.distance,
-            time: newRoute.time,
-            popularity: newRoute.popularity,
-            searches: Number.parseInt(newRoute.searches),
-            category: newRoute.category,
-        }
-
-        setPopularRoutes([...popularRoutes, route])
-        setNewRoute({
-            source: "",
-            destination: "",
-            distance: "",
-            time: "",
-            popularity: "",
-            searches: "",
-            category: "",
-        })
-
-        toast("Popular route added successfully")
-    }
-
-    const handleEditRoute = (route: PopularRoute) => {
-        setEditingRoute(route)
-        setEditForm({
-            source: route.source.id,
-            destination: route.destination.id,
-            distance: route.distance,
-            time: route.time,
-            popularity: route.popularity,
-            searches: route.searches.toString(),
-            category: route.category,
-        })
-        setIsEditDialogOpen(true)
-    }
-
-    const handleUpdateRoute = () => {
-        if (!editingRoute) return
-
-        if (
-            !editForm.source ||
-            !editForm.destination ||
-            !editForm.distance ||
-            !editForm.time ||
-            !editForm.popularity ||
-            !editForm.searches ||
-            !editForm.category
-        ) {
-            toast("Please fill in all fields")
-            return
-        }
-
-        if (editForm.source === editForm.destination) {
-            toast("Source and destination cannot be the same")
-            return
-        }
-
-        const sourceLocation = locations.find((l) => l.id === editForm.source)
-        const destinationLocation = locations.find((l) => l.id === editForm.destination)
-
-        if (!sourceLocation || !destinationLocation) {
-            toast("Invalid source or destination")
-            return
-        }
-
-        const updatedRoute: PopularRoute = {
-            ...editingRoute,
-            source: sourceLocation,
-            destination: destinationLocation,
-            distance: editForm.distance,
-            time: editForm.time,
-            popularity: editForm.popularity,
-            searches: Number.parseInt(editForm.searches),
-            category: editForm.category,
-        }
-
-        setPopularRoutes(popularRoutes.map((route) => (route.id === editingRoute.id ? updatedRoute : route)))
-
-        setIsEditDialogOpen(false)
-        setEditingRoute(null)
-
-        toast("Route updated successfully")
-    }
-
-    const handleDeleteRoute = (routeId: string) => {
-        setPopularRoutes(popularRoutes.filter((route) => route.id !== routeId))
-        toast("Route deleted successfully")
-    }
-
-    const getPriorityColor = (popularity: string) => {
-        switch (popularity) {
-            case "Very High":
-                return "bg-red-500/10 text-red-400 border-red-500/30"
-            case "High":
-                return "bg-orange-500/10 text-orange-400 border-orange-500/30"
-            case "Medium":
-                return "bg-yellow-500/10 text-yellow-400 border-yellow-500/30"
-            case "Low":
-                return "bg-green-500/10 text-green-400 border-green-500/30"
-            default:
-                return "bg-slate-500/10 text-slate-400 border-slate-500/30"
-        }
-    }
+        fetchData();
+    }, []);
 
     const LocationSchema = z.object({
         location: z.string().min(1, { message: "Location is required" }),
@@ -447,7 +83,7 @@ export default function AdminPanel() {
         image: z.string().min(1, { message: "Image is required" })
     });
 
-
+    // Form for adding new locations
     const locationForm = useForm({
         resolver: zodResolver(LocationSchema),
         defaultValues: {
@@ -457,6 +93,120 @@ export default function AdminPanel() {
             image: "",
         },
     });
+
+    // Separate form for editing existing locations
+    const editForm = useForm({
+        resolver: zodResolver(LocationSchema),
+        defaultValues: {
+            location: "",
+            name: "",
+            category: "",
+            image: "",
+        },
+    });
+
+    const handleEditRoute = (route: Route) => {
+        setEditingRoute(route)
+        // Populate the edit form with the selected route's data
+        editForm.reset({
+            name: route.name,
+            location: route.location,
+            image: route.image,
+            category: route.category,
+        })
+        // Set the current image as preview
+        setEditImagePreview(`/${route.image}`)
+        setIsEditDialogOpen(true)
+    }
+
+    const handleSubmitClick = locationForm.handleSubmit(async (data) => {
+        const { location, name, category, image } = data;
+
+        const response = await fetch(`http://localhost:5005/location/addLocation`, {
+            method: "POST",
+            body: JSON.stringify({ location, name, category, image }),
+            credentials: "include",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+
+        const datas = await response.json();
+        console.log(datas)
+        if (datas.msg) {
+            toast(datas.msg)
+        }
+
+        // Reset form after successful submission
+        locationForm.reset();
+        setAddImagePreview(""); // Clear image preview
+    });
+
+    const handleUpdateRoute = editForm.handleSubmit(async (data) => {
+        if (!editingRoute) return;
+
+        const { location, name, category, image } = data;
+
+        try {
+            const response = await fetch(`http://localhost:5005/location/updateLocationInfo/${editingRoute.did}`, {
+                method: "PUT",
+                body: JSON.stringify({ location, name, category, image }),
+                credentials: "include",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+            });
+
+            const result = await response.json();
+            console.log(result);
+
+            if (result.msg) {
+                toast(result.msg);
+                // Refresh the routes list
+                const fetchData = async () => {
+                    try {
+                        const response = await fetch("http://localhost:5005/location/getLocation", {
+                            method: "GET",
+                            credentials: "include",
+                            headers: {
+                                "Content-Type": "application/json",
+                            },
+                        });
+                        const data = await response.json();
+                        setPopularRoutes(data);
+                    } catch (error) {
+                        console.error("Fetch error:", error);
+                    }
+                };
+                fetchData();
+            }
+
+            setIsEditDialogOpen(false);
+            setEditingRoute(null);
+            setEditImagePreview(""); // Clear edit image preview
+        } catch (error) {
+            console.error("Update error:", error);
+            toast("Failed to update route");
+        }
+    });
+
+
+    const handleDeleteRoute = async (did: number) => {
+
+        const response = await fetch(`http://localhost:5005/location/deleteLocation/${did}`, {
+            method: "DELETE"
+        })
+
+        const datas = await response.json();
+        console.log(datas)
+        if (datas.msg) {
+            toast(datas.msg)
+        }
+
+        // Reset form after successful submission
+        locationForm.reset();
+        setAddImagePreview(""); // Clear image preview}
+    }
 
     return (
         <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
@@ -513,7 +263,7 @@ export default function AdminPanel() {
                                                             <FormLabel className="flex justify-between">Location</FormLabel>
                                                             <FormControl className="cursor-pointer">
                                                                 <Select onValueChange={field.onChange}
-                                                                    defaultValue={field.value}>
+                                                                    value={field.value}>
                                                                     <SelectTrigger id="source" className="w-full cursor-pointer text-white border-slate-600">
                                                                         <SelectValue className=" text-white" placeholder="Select starting point" />
                                                                     </SelectTrigger>
@@ -557,7 +307,7 @@ export default function AdminPanel() {
                                                             <FormControl>
                                                                 <Select
                                                                     onValueChange={field.onChange}
-                                                                    defaultValue={field.value}
+                                                                    value={field.value}
                                                                 >
                                                                     <SelectTrigger className='w-full cursor-pointer'>
                                                                         <SelectValue className="cursor-pointer" placeholder="Select category" />
@@ -578,8 +328,7 @@ export default function AdminPanel() {
                                                     control={locationForm.control}
                                                     name="image"
                                                     render={({ field }) => (
-                                                        <FormItem className=' cursor-pointer'
-                                                        >
+                                                        <FormItem className=' cursor-pointer'>
                                                             <FormLabel>Image</FormLabel>
                                                             <FormControl>
                                                                 <Input
@@ -588,10 +337,27 @@ export default function AdminPanel() {
                                                                     accept="image/*"
                                                                     onChange={(e) => {
                                                                         const file = e.target.files?.[0];
-                                                                        field.onChange(file?.name);
+                                                                        if (file) {
+                                                                            field.onChange(file.name);
+                                                                            // Create preview URL
+                                                                            const previewUrl = URL.createObjectURL(file);
+                                                                            setAddImagePreview(previewUrl);
+                                                                        } else {
+                                                                            field.onChange("");
+                                                                            setAddImagePreview("");
+                                                                        }
                                                                     }}
                                                                 />
                                                             </FormControl>
+                                                            {addImagePreview && (
+                                                                <div className="mt-2">
+                                                                    <img
+                                                                        src={addImagePreview}
+                                                                        alt="Preview"
+                                                                        className="h-20 w-20 object-cover rounded border border-slate-600"
+                                                                    />
+                                                                </div>
+                                                            )}
                                                             <FormMessage />
                                                         </FormItem>
                                                     )}
@@ -601,7 +367,7 @@ export default function AdminPanel() {
                                     </Form>
 
                                     <div className="flex justify-end">
-                                        <Button onClick={handleAddRoute} className="bg-emerald-500 hover:bg-emerald-600 text-white px-8">
+                                        <Button onClick={handleSubmitClick} className="bg-emerald-500 hover:bg-emerald-600 text-white px-8">
                                             <Plus className="mr-2 h-4 w-4" />
                                             Add Route
                                         </Button>
@@ -634,20 +400,22 @@ export default function AdminPanel() {
                                             </TableHeader>
                                             <TableBody>
                                                 {popularRoutes.map((route) => (
-                                                    <TableRow key={route.id} className="border-slate-700 hover:bg-slate-700/30">
+                                                    <TableRow key={route.did} className="border-slate-700 hover:bg-slate-700/30">
+                                                        <TableCell>
+                                                            <div className=" h-20 w-20 overflow-hidden">
+                                                                <img
+                                                                    src={`/${route.image}`}
+                                                                    alt=""
+                                                                    className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+                                                                />
+                                                            </div>
+                                                        </TableCell>
                                                         <TableCell>
                                                             <div className="font-medium text-white text-start">
-                                                                {route.destination.name}
+                                                                {route.name}
                                                             </div>
                                                         </TableCell>
-                                                        <TableCell>
-                                                            <div className=" flex items-center justify-start">
-                                                                <Badge variant="outline" className="bg-slate-700/50 text-slate-300 border-slate-600">
-                                                                    {route.category}
-                                                                </Badge>
-                                                            </div>
-                                                        </TableCell>
-                                                        <TableCell className=" text-start text-white">{route.searches.toLocaleString()}</TableCell>
+                                                        <TableCell className=" text-start text-white">{route.location}</TableCell>
                                                         <TableCell>
                                                             <div className=" flex items-center justify-start">
                                                                 <Badge variant="outline" className="bg-slate-700/50 text-slate-300 border-slate-600">
@@ -683,7 +451,7 @@ export default function AdminPanel() {
                                                                                 Cancel
                                                                             </AlertDialogCancel>
                                                                             <AlertDialogAction
-                                                                                onClick={() => handleDeleteRoute(route.id)}
+                                                                                onClick={() => handleDeleteRoute(route.did)}
                                                                                 className="bg-red-500 hover:bg-red-600 text-white"
                                                                             >
                                                                                 Delete
@@ -719,130 +487,131 @@ export default function AdminPanel() {
                             <DialogTitle className="text-emerald-400">Edit Route</DialogTitle>
                             <DialogDescription className="text-slate-300">Update the route information below.</DialogDescription>
                         </DialogHeader>
-                        <div className="space-y-4">
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>Source Location</Label>
-                                    <Select
-                                        value={editForm.source}
-                                        onValueChange={(value) => setEditForm({ ...editForm, source: value })}
-                                    >
-                                        <SelectTrigger className="bg-slate-700 border-slate-600">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent className="bg-slate-700 text-white border-slate-600">
-                                            {locations.map((location) => (
-                                                <SelectItem key={location.id} value={location.id}>
-                                                    {location.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
+                        <Form {...editForm}>
+                            <form className="space-4 text-white gap-2 flex items-center justify-center" >
+                                <div className=" flex gap-2 flex-col">
+                                    <FormField
+                                        control={editForm.control}
+                                        name="location"
+                                        render={({ field }) => (
+                                            <FormItem className=' cursor-pointer'>
+                                                <FormLabel className="flex justify-between">Location</FormLabel>
+                                                <FormControl className="cursor-pointer">
+                                                    <Select onValueChange={field.onChange}
+                                                        value={field.value}>
+                                                        <SelectTrigger id="source" className="w-full cursor-pointer text-white border-slate-600">
+                                                            <SelectValue className=" text-white" placeholder="Select starting point" />
+                                                        </SelectTrigger>
+                                                        <SelectContent className="bg-slate-700 cursor-pointer text-white border-slate-600">
+                                                            {allStops.map((stop) => (
+                                                                <SelectItem className="cursor-pointer" key={stop} value={stop}>
+                                                                    <div>
+                                                                        <div>{stop}</div>
+                                                                    </div>
+                                                                </SelectItem>
+                                                            ))}
+                                                        </SelectContent>
+                                                    </Select>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
 
-                                <div className="space-y-2">
-                                    <Label>Destination Location</Label>
-                                    <Select
-                                        value={editForm.destination}
-                                        onValueChange={(value) => setEditForm({ ...editForm, destination: value })}
-                                    >
-                                        <SelectTrigger className="bg-slate-700 border-slate-600">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent className="bg-slate-700 text-white border-slate-600">
-                                            {locations.map((location) => (
-                                                <SelectItem key={location.id} value={location.id}>
-                                                    {location.name}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div className="space-y-2">
-                                    <Label>Distance (km)</Label>
-                                    <Input
-                                        type="number"
-                                        step="0.1"
-                                        className="bg-slate-700 border-slate-600"
-                                        value={editForm.distance}
-                                        onChange={(e) => setEditForm({ ...editForm, distance: e.target.value })}
+                                    <FormField
+                                        control={editForm.control}
+                                        name="name"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel className="flex justify-between">Name</FormLabel>
+                                                <FormControl>
+                                                    <Input {...field} type="text" />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                 </div>
-
-                                <div className="space-y-2">
-                                    <Label>Travel Time (minutes)</Label>
-                                    <Input
-                                        type="number"
-                                        className="bg-slate-700 border-slate-600"
-                                        value={editForm.time}
-                                        onChange={(e) => setEditForm({ ...editForm, time: e.target.value })}
+                                <div className=" flex gap-2 flex-col">
+                                    <FormField
+                                        control={editForm.control}
+                                        name="category"
+                                        render={({ field }) => (
+                                            <FormItem className=' cursor-pointer'>
+                                                <FormLabel>Category</FormLabel>
+                                                <FormControl>
+                                                    <Select
+                                                        onValueChange={field.onChange}
+                                                        value={field.value}
+                                                    >
+                                                        <SelectTrigger className='w-full cursor-pointer'>
+                                                            <SelectValue className="cursor-pointer" placeholder="Select category" />
+                                                        </SelectTrigger>
+                                                        <SelectContent className="bg-slate-700 text-white border-slate-600 cursor-pointer">
+                                                            <SelectItem className="cursor-pointer" value="spiritual">Spiritual</SelectItem>
+                                                            <SelectItem className="cursor-pointer" value="cultural">Cultural</SelectItem>
+                                                            <SelectItem className="cursor-pointer" value="natural">Natural</SelectItem>
+                                                            <SelectItem className="cursor-pointer" value="historical">Historical</SelectItem>
+                                                        </SelectContent>
+                                                    </Select>
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={editForm.control}
+                                        name="image"
+                                        render={({ field }) => (
+                                            <FormItem className=' cursor-pointer'>
+                                                <FormLabel>Image</FormLabel>
+                                                <FormControl>
+                                                    <Input
+                                                        type="file"
+                                                        className='bg-white text-black cursor-pointer'
+                                                        accept="image/*"
+                                                        onChange={(e) => {
+                                                            const file = e.target.files?.[0];
+                                                            if (file) {
+                                                                field.onChange(file.name);
+                                                                // Create preview URL for new file
+                                                                const previewUrl = URL.createObjectURL(file);
+                                                                setEditImagePreview(previewUrl);
+                                                            }
+                                                        }}
+                                                    />
+                                                </FormControl>
+                                                {editImagePreview && (
+                                                    <div className="mt-2">
+                                                        <img
+                                                            src={editImagePreview}
+                                                            alt="Preview"
+                                                            className="h-20 w-20 object-cover rounded border border-slate-600"
+                                                        />
+                                                    </div>
+                                                )}
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                 </div>
-                            </div>
-
-                            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                <div className="space-y-2">
-                                    <Label>Popularity Level</Label>
-                                    <Select
-                                        value={editForm.popularity}
-                                        onValueChange={(value) => setEditForm({ ...editForm, popularity: value })}
-                                    >
-                                        <SelectTrigger className="bg-slate-700 border-slate-600">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent className="bg-slate-700 text-white border-slate-600">
-                                            {popularityLevels.map((level) => (
-                                                <SelectItem key={level} value={level}>
-                                                    {level}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-
-                                <div className="space-y-2">
-                                    <Label>Search Count</Label>
-                                    <Input
-                                        type="number"
-                                        className="bg-slate-700 border-slate-600"
-                                        value={editForm.searches}
-                                        onChange={(e) => setEditForm({ ...editForm, searches: e.target.value })}
-                                    />
-                                </div>
-
-                                <div className="space-y-2">
-                                    <Label>Category</Label>
-                                    <Select
-                                        value={editForm.category}
-                                        onValueChange={(value) => setEditForm({ ...editForm, category: value })}
-                                    >
-                                        <SelectTrigger className="bg-slate-700 border-slate-600">
-                                            <SelectValue />
-                                        </SelectTrigger>
-                                        <SelectContent className="bg-slate-700 text-white border-slate-600">
-                                            {categories.map((category) => (
-                                                <SelectItem key={category} value={category}>
-                                                    {category.charAt(0).toUpperCase() + category.slice(1)}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectContent>
-                                    </Select>
-                                </div>
-                            </div>
-                        </div>
+                            </form>
+                        </Form>
                         <DialogFooter>
                             <Button
                                 variant="outline"
-                                onClick={() => setIsEditDialogOpen(false)}
-                                className="border-slate-600 text-slate-300 hover:bg-slate-700"
+                                onClick={() => {
+                                    setIsEditDialogOpen(false);
+                                    setEditImagePreview(""); // Clear preview when canceling
+                                }}
+                                className="border-slate-600 cursor-pointer text-slate-300 bg-slate-500 hover:bg-slate-700"
                             >
                                 <X className="mr-2 h-4 w-4" />
                                 Cancel
                             </Button>
-                            <Button onClick={handleUpdateRoute} className="bg-emerald-500 hover:bg-emerald-600 text-white">
+                            <Button
+                                onClick={handleUpdateRoute}
+                                className="bg-emerald-500 cursor-pointer hover:bg-emerald-600 text-white">
                                 <Save className="mr-2 h-4 w-4" />
                                 Save Changes
                             </Button>
