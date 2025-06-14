@@ -11,6 +11,7 @@ import { mergedGraph } from "@/routes-dataset"
 import { toast } from "sonner"
 import RouteSection from "./route-section"
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import Footer from "../components/footer"
 
 
 
@@ -199,6 +200,8 @@ export default function HistoryPage() {
                     </div>
                 )}
             </main>
+            <Footer />
+
         </div>
     )
 }

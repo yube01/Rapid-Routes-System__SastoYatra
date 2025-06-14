@@ -34,6 +34,7 @@ import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { allStops } from "@/constants/allstops"
 import { toast } from "sonner"
+import Footer from "../components/footer"
 
 interface Route {
     did: number;
@@ -619,6 +620,8 @@ export default function AdminPanel() {
                     </DialogContent>
                 </Dialog>
             </main>
+            <Footer />
+
         </div>
     )
 }

@@ -25,6 +25,7 @@ import RouteSection from './route-section';
 import { getExponentialDecayScore } from '@/algorithm/exponentialDecayScore';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { allStops } from '@/constants/allstops';
+import Footer from '../components/footer';
 
 
 
@@ -330,6 +331,7 @@ export default function PopularDestinations() {
                     </Card>
                 </div> */}
             </main>
+            <Footer />
         </div>
     )
 }

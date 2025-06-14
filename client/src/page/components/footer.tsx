@@ -1,11 +1,10 @@
-import { Link } from 'react-router-dom'
 
 const Footer = () => {
     return (
-        <footer className="bg-slate-900 border-t border-slate-800 py-6 mt-auto">
+        <footer className="text-white backdrop-blur bg-black/40 border-t border-slate-800 py-6 mt-auto">
             <div className="container mx-auto px-4 text-center text-slate-400 text-sm">
-                <p>© 2025 Route Finder. All rights reserved.</p>
-                <div className="flex justify-center gap-4 mt-2">
+                <p>© {new Date().getFullYear()} Route Finder. All rights reserved.</p>
+                {/* <div className="flex justify-center gap-4 mt-2">
                     <Link to="/" className="hover:text-emerald-400">
                         Terms
                     </Link>
@@ -15,7 +14,7 @@ const Footer = () => {
                     <Link to="/" className="hover:text-emerald-400">
                         Help
                     </Link>
-                </div>
+                </div> */}
             </div>
         </footer>)
 }

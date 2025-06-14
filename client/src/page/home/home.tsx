@@ -10,6 +10,7 @@ import RouteSection from "./route-section";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { allStops, routeMappings } from "@/constants/allstops";
+import Footer from "../components/footer";
 
 
 
@@ -197,6 +198,7 @@ const BusRouteFinder: React.FC = () => {
                     )}
                 </main>
             </main>
+            <Footer />
         </div>
     );
 };
