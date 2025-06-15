@@ -1,4 +1,3 @@
-"use client"
 
 import { useEffect, useState } from "react"
 import { Card, CardContent } from "@/components/ui/card"
@@ -12,6 +11,7 @@ import { toast } from "sonner"
 import RouteSection from "./route-section"
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Footer from "../components/footer"
+import { motion } from "framer-motion"
 
 
 
@@ -143,7 +143,7 @@ export default function HistoryPage() {
                         </Link>
                     </div>
                 ) : (
-                    <div className="space-y-6">
+                    <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.5 }} className="space-y-6">
                         {history.map((item) => (
                             <Card key={item.id} className="border-0 shadow-lg bg-slate-800/50 backdrop-blur-sm overflow-hidden">
 
@@ -197,7 +197,7 @@ export default function HistoryPage() {
                                 )}
                             </DialogContent>
                         </Dialog>
-                    </div>
+                    </motion.div>
                 )}
             </main>
             <Footer />
