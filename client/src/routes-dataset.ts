@@ -2,6 +2,15 @@ interface Graph {
   [key: string]: { [key: string]: { distance: number; time: number } };
 }
 
+export type VehicleType = "bus" | "micro" | "tempo";
+
+export interface RouteInfo {
+  name: string;
+  operator: string;
+  vehicleType: VehicleType;
+  graph: Graph;
+}
+
 // Purano Buspark - Chabahil bus routes
 const puranoBusparkToChabahil: Graph = {
   Bhadrakali: { "Singha Durbar West Stop": { distance: 1.2, time: 5 } },
@@ -550,33 +559,162 @@ const bagbazarToKamalbinayak: Graph = {
   Byasi: { Kamalbinayak_Stop: { distance: 1.2, time: 5 } },
 };
 
-export const allRoutes = [
-  puranoBusparkToChabahil,
-  lagankhelToNayaBuspark,
-  bhaktapurToPuranoBuspark,
-  budhanilkanthaToRatnaPark,
-  kalankiToAirport,
-  chakrapathParikrama,
-  bagbazarToGothatar,
-  kalankiToPepsicola,
-  kamalbinayakToRatnapark,
-  puranoBusparkToSakhu,
-  bagbazarToChyamasing,
-  naikapToKausaltar,
-  ratnaparkToChangunarayan,
-  bhadrakaliToPanauti,
-  puranoBusParkToBudhanilkantha,
-  jorpatiToPuranoBusPark,
-  ratnaParkToSundarijal,
-  gokarnaToChabahil,
-  balkumariToGopiKrishna,
-  ratnaparkToDaksinkali,
-  attarkhelToPuranoBuspark,
-  kalankiToBalkumari,
-  puranoBusparkToShivapuri,
-  ratnaparkToDhulikhel,
-  bagbazarToKamalbinayak,
+export const allRoutes: RouteInfo[] = [
+  {
+    name: "Purano Buspark - Chabahil",
+    operator: "Nepal Yatayat",
+    vehicleType: "bus",
+    graph: puranoBusparkToChabahil,
+  },
+  {
+    name: "Lagankhel - Naya Buspark (Ringroad)",
+    operator: "Sajha Yatayat",
+    vehicleType: "bus",
+    graph: lagankhelToNayaBuspark,
+  },
+  {
+    name: "Bhaktapur - Purano Buspark",
+    operator: "Bagmati Yatayat",
+    vehicleType: "bus",
+    graph: bhaktapurToPuranoBuspark,
+  },
+  {
+    name: "Budhanilkantha - Ratna Park",
+    operator: "Samakhusi Yatayat",
+    vehicleType: "micro",
+    graph: budhanilkanthaToRatnaPark,
+  },
+  {
+    name: "Kalanki - TIA Airport",
+    operator: "Mahanagar Yatayat",
+    vehicleType: "bus",
+    graph: kalankiToAirport,
+  },
+  {
+    name: "Chakrapath Parikrama (Ring Road)",
+    operator: "Sajha Yatayat",
+    vehicleType: "bus",
+    graph: chakrapathParikrama,
+  },
+  {
+    name: "Bagbazar - Gothatar",
+    operator: "Nepal Yatayat",
+    vehicleType: "micro",
+    graph: bagbazarToGothatar,
+  },
+  {
+    name: "Kalanki - Pepsicola",
+    operator: "Rajdhani Yatayat",
+    vehicleType: "bus",
+    graph: kalankiToPepsicola,
+  },
+  {
+    name: "Kamalbinayak - Ratnapark",
+    operator: "Bagmati Yatayat",
+    vehicleType: "bus",
+    graph: kamalbinayakToRatnapark,
+  },
+  {
+    name: "Purano Buspark - Sakhu",
+    operator: "Nepal Yatayat",
+    vehicleType: "micro",
+    graph: puranoBusparkToSakhu,
+  },
+  {
+    name: "Bagbazar - Chyamasingh",
+    operator: "Bagmati Yatayat",
+    vehicleType: "bus",
+    graph: bagbazarToChyamasing,
+  },
+  {
+    name: "Naikap - Kausaltar",
+    operator: "Mahanagar Yatayat",
+    vehicleType: "bus",
+    graph: naikapToKausaltar,
+  },
+  {
+    name: "Ratnapark - Changunarayan",
+    operator: "Bagmati Yatayat",
+    vehicleType: "bus",
+    graph: ratnaparkToChangunarayan,
+  },
+  {
+    name: "Bhadrakali - Panauti",
+    operator: "Mahanagar Yatayat",
+    vehicleType: "bus",
+    graph: bhadrakaliToPanauti,
+  },
+  {
+    name: "Purano Bus Park - Budhanilkantha",
+    operator: "Samakhusi Yatayat",
+    vehicleType: "micro",
+    graph: puranoBusParkToBudhanilkantha,
+  },
+  {
+    name: "Jorpati - Purano Bus Park",
+    operator: "Nepal Yatayat",
+    vehicleType: "micro",
+    graph: jorpatiToPuranoBusPark,
+  },
+  {
+    name: "Ratna Park - Sundarijal",
+    operator: "Gagalphedi Yatayat",
+    vehicleType: "micro",
+    graph: ratnaParkToSundarijal,
+  },
+  {
+    name: "Gokarna - Chabahil",
+    operator: "Tarkeshwor Yatayat",
+    vehicleType: "micro",
+    graph: gokarnaToChabahil,
+  },
+  {
+    name: "Balkumari - Gopi Krishna",
+    operator: "Bishalnagar Yatayat",
+    vehicleType: "micro",
+    graph: balkumariToGopiKrishna,
+  },
+  {
+    name: "Ratnapark - Daksinkali",
+    operator: "Dakshinkhali Yatayat",
+    vehicleType: "bus",
+    graph: ratnaparkToDaksinkali,
+  },
+  {
+    name: "Attarkhel - Purano Buspark",
+    operator: "Nepal Yatayat",
+    vehicleType: "micro",
+    graph: attarkhelToPuranoBuspark,
+  },
+  {
+    name: "Kalanki - Balkumari",
+    operator: "Rajdhani Yatayat",
+    vehicleType: "bus",
+    graph: kalankiToBalkumari,
+  },
+  {
+    name: "Purano Buspark - Shivapuri",
+    operator: "Samakhusi Yatayat",
+    vehicleType: "micro",
+    graph: puranoBusparkToShivapuri,
+  },
+  {
+    name: "Ratnapark - Dhulikhel",
+    operator: "Mahanagar Yatayat",
+    vehicleType: "bus",
+    graph: ratnaparkToDhulikhel,
+  },
+  {
+    name: "Bagbazar - Kamalbinayak",
+    operator: "Bagmati Yatayat",
+    vehicleType: "bus",
+    graph: bagbazarToKamalbinayak,
+  },
 ];
+
+// Helper: extract just the graphs from allRoutes (for backward compatibility)
+export const allRouteGraphs = allRoutes.map((r) => r.graph);
+
 
 const mergeMultipleGraphs = (...graphs: Graph[]): Graph => {
   const merged: Graph = {};
@@ -596,30 +734,5 @@ const mergeMultipleGraphs = (...graphs: Graph[]): Graph => {
 };
 
 // Merge all bus routes into one graph
-export const mergedGraph = mergeMultipleGraphs(
-  puranoBusparkToChabahil,
-  lagankhelToNayaBuspark,
-  bhaktapurToPuranoBuspark,
-  budhanilkanthaToRatnaPark,
-  kalankiToAirport,
-  chakrapathParikrama,
-  bagbazarToGothatar,
-  kalankiToPepsicola,
-  kamalbinayakToRatnapark,
-  puranoBusparkToSakhu,
-  bagbazarToChyamasing,
-  naikapToKausaltar,
-  ratnaparkToChangunarayan,
-  bhadrakaliToPanauti,
-  puranoBusParkToBudhanilkantha,
-  jorpatiToPuranoBusPark,
-  ratnaParkToSundarijal,
-  gokarnaToChabahil,
-  balkumariToGopiKrishna,
-  ratnaparkToDaksinkali,
-  attarkhelToPuranoBuspark,
-  kalankiToBalkumari,
-  puranoBusparkToShivapuri,
-  ratnaparkToDhulikhel,
-  bagbazarToKamalbinayak
-);
+export const mergedGraph = mergeMultipleGraphs(...allRouteGraphs);
+

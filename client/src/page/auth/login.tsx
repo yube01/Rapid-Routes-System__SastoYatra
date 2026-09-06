@@ -74,7 +74,7 @@ const Login: React.FC = () => {
         }
         if (datas.user) {
             localStorage.setItem("user_info", datas.id)
-            navigate("/")
+            navigate("/routes")
         } else {
             toast(datas.message)
         }

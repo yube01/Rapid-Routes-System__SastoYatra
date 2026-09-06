@@ -12,6 +12,11 @@ import RouteSection from "./route-section"
 import { Dialog, DialogContent } from "@/components/ui/dialog";
 import Footer from "../components/footer"
 import { motion } from "framer-motion"
+import {
+    buildRouteSegments,
+    calculateTotalFareWithTransfers,
+    type RouteSegment,
+} from "@/utils/route-utils";
 
 
 
@@ -25,6 +30,8 @@ export default function HistoryPage() {
     const [totalTime, setTotalTime] = useState<number>(0);
     const [cost, setCost] = useState<number>(0);
     const [open, setOpen] = useState(false);
+    const [segments, setSegments] = useState<RouteSegment[]>([]);
+    const [transferFare, setTransferFare] = useState<number>(0);
 
     //   const [transferPoints, setTransferPoints] = useState<string[]>([]);
 
@@ -50,6 +57,12 @@ export default function HistoryPage() {
         setRoute(result.path);
         setTotalDistance(result.distance ?? 0);
         setTotalTime(result.time ?? 0);
+
+        // Build segments for transfer detection
+        const routeSegments = buildRouteSegments(result.path);
+        setSegments(routeSegments);
+        const multiSegmentFare = calculateTotalFareWithTransfers(routeSegments);
+        setTransferFare(multiSegmentFare);
 
         // Find all transfer points
         //   const transfers = findTransferPoints(result.path);
@@ -109,7 +122,7 @@ export default function HistoryPage() {
     }, []);
 
     return (
-        <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
+        <div className="min-h-screen w-full flex flex-col">
             <Navbar />
 
             <header className="pt-16 pb-12 px-4 text-center">
@@ -190,9 +203,11 @@ export default function HistoryPage() {
                                 {route.length > 0 && (
                                     <RouteSection
                                         route={route}
+                                        segments={segments}
                                         totalTime={totalTime.toFixed(2)}
                                         totalDistance={totalDistance.toFixed(2)}
                                         totalCost={cost}
+                                        transferFare={transferFare}
                                     />
                                 )}
                             </DialogContent>

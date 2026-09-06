@@ -27,6 +27,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { allStops } from '@/constants/allstops';
 import Footer from '../components/footer';
 import { motion } from "framer-motion"
+import {
+    buildRouteSegments,
+    calculateTotalFareWithTransfers,
+    type RouteSegment,
+} from '@/utils/route-utils';
 
 
 
@@ -38,6 +43,8 @@ export default function PopularDestinations() {
     const [totalDistance, setTotalDistance] = useState<number>(0);
     const [totalTime, setTotalTime] = useState<number>(0);
     const [cost, setCost] = useState<number>(0);
+    const [segments, setSegments] = useState<RouteSegment[]>([]);
+    const [transferFare, setTransferFare] = useState<number>(0);
 
     const findRoute = (source: string, destination: string) => {
         if (source === destination) {
@@ -60,7 +67,11 @@ export default function PopularDestinations() {
         setTotalDistance(result.distance ?? 0);
         setTotalTime(result.time ?? 0);
 
-
+        // Build segments for transfer detection
+        const routeSegments = buildRouteSegments(result.path);
+        setSegments(routeSegments);
+        const multiSegmentFare = calculateTotalFareWithTransfers(routeSegments);
+        setTransferFare(multiSegmentFare);
     };
     const calculateTotalFare = (totalDistance: number): number => {
         //cost
@@ -171,7 +182,7 @@ export default function PopularDestinations() {
 
 
     return (
-        <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
+        <div className="min-h-screen w-full flex flex-col">
             <Navbar />
 
             <Dialog open={open} onOpenChange={setOpen}>
@@ -288,9 +299,11 @@ export default function PopularDestinations() {
                                                 <DialogTitle className="text-emerald-400 w-[20rem]">Route Details</DialogTitle>
                                                 <RouteSection
                                                     route={routes}
+                                                    segments={segments}
                                                     totalTime={totalTime.toFixed(2)}
                                                     totalDistance={totalDistance.toFixed(2)}
                                                     totalCost={cost}
+                                                    transferFare={transferFare}
                                                 />
                                             </DialogHeader>
 

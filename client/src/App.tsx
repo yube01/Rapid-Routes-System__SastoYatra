@@ -1,6 +1,6 @@
-
 import './App.css'
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import LandingPage from './page/home/landing';
 import BusRouteFinder from './page/home/home';
 import CenterLayout from './page/CenterLayout';
 import Register from './page/auth/register';
@@ -10,13 +10,19 @@ import HistoryPage from './page/home/history';
 import { Toaster } from './components/ui/sonner';
 import Admin from './page/home/admin';
 
-
-
 function App() {
 
   const router = createBrowserRouter([
     {
       path: "/",
+      element: <LandingPage />,
+    },
+    {
+      path: "/routes",
+      element: <BusRouteFinder />,
+    },
+    {
+      path: "/find-route",
       element: <BusRouteFinder />,
     },
     {
@@ -30,7 +36,6 @@ function App() {
     {
       element: <CenterLayout />,
       children: [
-
         {
           path: "/register",
           element: <Register />,
@@ -47,9 +52,7 @@ function App() {
     },
   ])
 
-
   return (
-
     <>
       <Toaster />
       <RouterProvider router={router} />

@@ -3,41 +3,28 @@ import { mergedGraph } from "@/routes-dataset";
 import { dijkstra } from "@/algorithm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MapPin, Navigation } from "lucide-react"
+import { MapPin, Navigation, Banknote, Zap } from "lucide-react"
 import { Navbar } from "../components/navbar"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import RouteSection from "./route-section";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { allStops, routeMappings } from "@/constants/allstops";
+import { allStops } from "@/constants/allstops";
 import Footer from "../components/footer";
 import { motion } from "framer-motion"
+import {
+  buildRouteSegments,
+  calculateTotalFareWithTransfers,
+  calculateSingleFare,
+  getTransferCount,
+  type RouteSegment,
+} from "@/utils/route-utils";
 
-
-
-// Find transfer points where route changes
-const findTransferPoints = (path: string[]) => {
-    const transfers: string[] = [];
-    let previousRoute = routeMappings[path[0]];
-
-    for (let i = 1; i < path.length; i++) {
-        const currentRoute = routeMappings[path[i]];
-
-        // If the route changes at this stop, it's a transfer point
-        if (currentRoute && previousRoute && currentRoute.join() !== previousRoute.join()) {
-            transfers.push(path[i]);
-        }
-
-        previousRoute = currentRoute;
-    }
-
-    return transfers;
-};
+type RouteMode = "fastest" | "cheapest";
 
 const BusRouteFinder: React.FC = () => {
 
     const navigate = useNavigate()
-
 
     const [source, setSource] = useState<string>("Bhadrakali");
     const [destination, setDestination] = useState<string>("Naya Bus Park");
@@ -45,9 +32,9 @@ const BusRouteFinder: React.FC = () => {
     const [totalDistance, setTotalDistance] = useState<number>(0);
     const [totalTime, setTotalTime] = useState<number>(0);
     const [cost, setCost] = useState<number>(0);
-    const [transferPoints, setTransferPoints] = useState<string[]>([]);
-
-    // console.log(allStops)
+    const [transferFare, setTransferFare] = useState<number>(0);
+    const [segments, setSegments] = useState<RouteSegment[]>([]);
+    const [mode, setMode] = useState<RouteMode>("fastest");
 
     const findRoute = () => {
         if (source === destination) {
@@ -55,7 +42,6 @@ const BusRouteFinder: React.FC = () => {
             return;
         }
         const startTime = performance.now();
-
 
         const result = dijkstra(mergedGraph, source, destination);
         console.log(result)
@@ -65,49 +51,51 @@ const BusRouteFinder: React.FC = () => {
         const endTime = performance.now();
         console.log(`Execution Time: ${(endTime - startTime).toFixed(4)} milliseconds`);
 
-
         setRoute(result.path);
         setTotalDistance(result.distance ?? 0);
         setTotalTime(result.time ?? 0);
 
-        // Find all transfer points
-        const transfers = findTransferPoints(result.path);
-        setTransferPoints(transfers);
+        // Build segments for transfer detection
+        const routeSegments = buildRouteSegments(result.path);
+        setSegments(routeSegments);
 
+        // Calculate both fare types
+        const singleFare = calculateSingleFare(result.distance ?? 0);
+        const multiSegmentFare = calculateTotalFareWithTransfers(routeSegments);
+        setTransferFare(multiSegmentFare);
 
-    };
-    const calculateTotalFare = (totalDistance: number): number => {
-        //cost
-        if (totalDistance <= 5) {
-            return 20;
-        } else if (totalDistance <= 10) {
-            return 25;
-        } else if (totalDistance <= 15) {
-            return 30;
-        } else if (totalDistance <= 20) {
-            return 35;
+        // In cheapest mode, use single fare; in fastest mode, use transfer fare
+        if (mode === "cheapest") {
+            setCost(singleFare);
         } else {
-            // Optionally handle totalDistances greater than 20 km
-            // For now, you can return a base + additional rate
-            return 33 + Math.ceil(totalDistance - 20) * 2; // Rs. 2 per km after 20 km (example)
+            setCost(multiSegmentFare);
         }
     };
 
-
-
     useEffect(() => {
-
         if (localStorage.getItem("user_info") === null) {
             navigate("/login")
         }
-        const totalFare = calculateTotalFare(totalDistance);
-        setCost(totalFare);
-    }, [navigate, totalDistance])
+    }, [navigate])
 
+    // Recalculate fare when mode changes
+    useEffect(() => {
+        if (route.length === 0) return;
+        const singleFare = calculateSingleFare(totalDistance);
+        const multiSegmentFare = calculateTotalFareWithTransfers(segments);
+        setTransferFare(multiSegmentFare);
 
+        if (mode === "cheapest") {
+            setCost(singleFare);
+        } else {
+            setCost(multiSegmentFare);
+        }
+    }, [mode, totalDistance, segments, route.length]);
+
+    const transferCount = getTransferCount(segments);
 
     return (
-        <div className="h-[90vh] lg:w-[1280px] md:w-full flex flex-col">
+        <div className="min-h-screen w-full flex flex-col pt-16">
             <Navbar />
             <main className="flex-1 container mx-auto px-4 py-8">
                 <header className=" pb-12 px-4 text-center">
@@ -151,8 +139,6 @@ const BusRouteFinder: React.FC = () => {
                                         </Select>
                                     </div>
 
-
-
                                     <div className="space-y-3">
                                         <label htmlFor="destination" className="text-sm font-medium flex items-center gap-2 text-white">
                                             <MapPin className="h-4 w-4 text-emerald-400" />
@@ -175,6 +161,48 @@ const BusRouteFinder: React.FC = () => {
                                     </div>
                                 </div>
 
+                                {/* Mode Toggle */}
+                                <div className="mt-6 flex items-center justify-center gap-3">
+                                    <span className="text-xs text-slate-400 uppercase tracking-wider font-semibold">Route Priority:</span>
+                                    <div className="flex rounded-xl overflow-hidden border border-slate-600/50 bg-slate-900/50">
+                                        <button
+                                            onClick={() => setMode("fastest")}
+                                            className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all cursor-pointer ${
+                                                mode === "fastest"
+                                                    ? "bg-emerald-500/20 text-emerald-400 border-r border-emerald-500/30"
+                                                    : "text-slate-400 hover:text-slate-200 border-r border-slate-700/50"
+                                            }`}
+                                        >
+                                            <Zap className="h-4 w-4" />
+                                            Fastest
+                                        </button>
+                                        <button
+                                            onClick={() => setMode("cheapest")}
+                                            className={`flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-all cursor-pointer ${
+                                                mode === "cheapest"
+                                                    ? "bg-amber-500/20 text-amber-400"
+                                                    : "text-slate-400 hover:text-slate-200"
+                                            }`}
+                                        >
+                                            <Banknote className="h-4 w-4" />
+                                            Save Money
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Mode description */}
+                                <div className="mt-3 text-center">
+                                    {mode === "fastest" ? (
+                                        <p className="text-xs text-slate-400">
+                                            ⚡ Shows the quickest route. If transfers are needed, each bus ride is charged separately.
+                                        </p>
+                                    ) : (
+                                        <p className="text-xs text-slate-400">
+                                            💰 Shows single-ride fare as if no transfers. Ideal when direct routes are available.
+                                        </p>
+                                    )}
+                                </div>
+
                                 <div className="mt-8 flex justify-center">
                                     <Button
                                         onClick={findRoute}
@@ -191,13 +219,31 @@ const BusRouteFinder: React.FC = () => {
                     </motion.div>
 
                     {route.length > 0 && (
-                        <RouteSection
-                            route={route}
-                            transferPoints={transferPoints}
-                            totalTime={totalTime.toFixed(2)}
-                            totalDistance={totalDistance.toFixed(2)}
-                            totalCost={cost}
-                        />
+                        <>
+                            {/* Savings hint when in fastest mode and transfers add cost */}
+                            {mode === "fastest" && transferCount > 0 && transferFare > calculateSingleFare(totalDistance) && (
+                                <motion.div
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="mb-4 px-4 py-3 rounded-xl bg-amber-500/10 border border-amber-500/20 text-sm text-amber-300 flex items-center gap-2"
+                                >
+                                    <Banknote className="h-4 w-4 flex-shrink-0" />
+                                    <span>
+                                        💡 <strong>Tip:</strong> Switch to "Save Money" mode to see the single-ride fare of{" "}
+                                        <strong className="text-amber-400">Rs. {calculateSingleFare(totalDistance)}</strong> instead of{" "}
+                                        <strong>Rs. {transferFare}</strong> (with {transferCount} transfer{transferCount > 1 ? "s" : ""}).
+                                    </span>
+                                </motion.div>
+                            )}
+                            <RouteSection
+                                route={route}
+                                segments={segments}
+                                totalTime={totalTime.toFixed(2)}
+                                totalDistance={totalDistance.toFixed(2)}
+                                totalCost={cost}
+                                transferFare={transferFare}
+                            />
+                        </>
                     )}
                 </main>
             </main>
