@@ -1,3 +1,4 @@
+import process from "node:process";
 import "dotenv/config";
 import { defineConfig } from "drizzle-kit";
 
@@ -6,7 +7,7 @@ export default defineConfig({
   schema: "./src/schema/schema.ts",
   dialect: "postgresql",
   dbCredentials: {
-    url: "postgres://postgres:yube@localhost:5432/sasto_yatra",
+    url: process.env.DB_URL || "postgres://postgres:yube@localhost:5432/sasto_yatra",
   },
 });
 
