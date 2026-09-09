@@ -1,10 +1,9 @@
 import express from "express";
 import "dotenv/config";
 import bodyParser from "body-parser";
-import db from "./db";
-import authRoute from "../src/routes/auth.route";
-import locationRoute from "../src/routes/location.route";
-import historyRoute from "../src/routes/history.route";
+import authRoute from "./routes/auth.route";
+import locationRoute from "./routes/location.route";
+import historyRoute from "./routes/history.route";
 import cors from "cors";
 
 const app = express();
@@ -14,26 +13,40 @@ app.use(express.json());
 app.use(bodyParser.json());
 app.use(express.urlencoded({ extended: true }));
 
+const allowedOrigins = [
+  "http://localhost:5173",
+  "http://localhost:3000",
+  process.env.CLIENT_URL,
+].filter(Boolean);
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.includes(origin) || origin.endsWith(".vercel.app")) {
+        return callback(null, true);
+      }
+      return callback(null, true);
+    },
     credentials: true,
   })
 );
+
+// Root / Health check route
+app.get("/", (req, res) => {
+  res.send("server running !!");
+});
 
 app.use("/auth", authRoute);
 app.use("/location", locationRoute);
 app.use("/history", historyRoute);
 
-app.listen(port, async () => {
-  try {
-    console.log(`Server is running on port ${port}`);
-    console.log(db.query);
+// Only listen locally, Vercel runs serverless functions without app.listen
+if (!process.env.VERCEL) {
+  app.listen(port || 5005, () => {
+    console.log(`Server is running on port ${port || 5005}`);
+  });
+}
 
-    app.get("/", (req, res) => {
-      res.send("server running !!");
-    });
-  } catch (error) {
-    console.log("Error");
-  }
-});
+export default app;
+
