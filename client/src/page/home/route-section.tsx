@@ -7,6 +7,7 @@ import { motion } from "framer-motion"
 import { toast } from "sonner"
 import type { RouteSegment } from "@/utils/route-utils"
 import { getVehicleEmoji, getTransferCount } from "@/utils/route-utils"
+import { API_URL } from "@/constants/api"
 
 
 interface RouteSectionProps {
@@ -45,7 +46,7 @@ export default function RouteSection({
   }
 
   const handleSubmitClick = (async (id: string, source: string, destination: string) => {
-    const response = await fetch(`http://localhost:5005/history/createHistory`, {
+    const response = await fetch(`${API_URL}/history/createHistory`, {
       method: "POST",
       body: JSON.stringify({ id, source, destination }),
       credentials: "include",

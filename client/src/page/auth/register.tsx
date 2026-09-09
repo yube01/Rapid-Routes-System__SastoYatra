@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'sonner'
 import { z } from "zod";
+import { API_URL } from '@/constants/api'
 // import { onRegisterSubmit } from '@/api/RegisterUser'
 const RegisterSchema = z.object({
     fullName: z.string().min(1, {
@@ -46,7 +47,7 @@ const Register: React.FC = () => {
     const handleSubmitClick = registrationForm.handleSubmit(async (data) => {
         const { fullName, email, password } = data;
         setIsLoading(false);
-        const response = await fetch(`http://localhost:5005/auth/register`, {
+        const response = await fetch(`${API_URL}/auth/register`, {
             method: "POST",
             body: JSON.stringify({ fullName, email, password }),
             credentials: "include",

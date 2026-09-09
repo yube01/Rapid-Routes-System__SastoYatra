@@ -23,6 +23,7 @@ import { dijkstra } from '@/algorithm'
 import { toast } from 'sonner'
 import RouteSection from './route-section';
 import { getExponentialDecayScore } from '@/algorithm/exponentialDecayScore';
+import { API_URL } from '@/constants/api';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { allStops } from '@/constants/allstops';
 import Footer from '../components/footer';
@@ -105,7 +106,7 @@ export default function PopularDestinations() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5005/location/getLocation", {
+                const response = await fetch(`${API_URL}/location/getLocation`, {
                     method: "GET",
                     credentials: "include", // include cookies if needed
                     headers: {
@@ -128,7 +129,7 @@ export default function PopularDestinations() {
 
     const updatePopularity = async (id: number) => {
         try {
-            const response = await fetch(`http://localhost:5005/location/updateLocation/${id}`, {
+            const response = await fetch(`${API_URL}/location/updateLocation/${id}`, {
                 method: "PUT",
                 credentials: "include", // include cookies if needed
                 headers: {

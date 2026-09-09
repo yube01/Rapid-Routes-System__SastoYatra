@@ -10,6 +10,7 @@ import { mergedGraph } from "@/routes-dataset"
 import { toast } from "sonner"
 import RouteSection from "./route-section"
 import { Dialog, DialogContent } from "@/components/ui/dialog";
+import { API_URL } from "@/constants/api"
 import Footer from "../components/footer"
 import { motion } from "framer-motion"
 import {
@@ -101,7 +102,7 @@ export default function HistoryPage() {
 
         const fetchData = async () => {
             try {
-                const response = await fetch(`http://localhost:5005/history/getHistory/${id}`, {
+                const response = await fetch(`${API_URL}/history/getHistory/${id}`, {
                     method: "GET",
                     credentials: "include", // include cookies if needed
                     headers: {

@@ -35,6 +35,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { allStops } from "@/constants/allstops"
 import { toast } from "sonner"
 import Footer from "../components/footer"
+import { API_URL } from "@/constants/api"
 
 interface Route {
     did: number;
@@ -58,7 +59,7 @@ export default function AdminPanel() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch("http://localhost:5005/location/getLocation", {
+                const response = await fetch(`${API_URL}/location/getLocation`, {
                     method: "GET",
                     credentials: "include",
                     headers: {
@@ -123,7 +124,7 @@ export default function AdminPanel() {
     const handleSubmitClick = locationForm.handleSubmit(async (data) => {
         const { location, name, category, image } = data;
 
-        const response = await fetch(`http://localhost:5005/location/addLocation`, {
+        const response = await fetch(`${API_URL}/location/addLocation`, {
             method: "POST",
             body: JSON.stringify({ location, name, category, image }),
             credentials: "include",
@@ -149,7 +150,7 @@ export default function AdminPanel() {
         const { location, name, category, image } = data;
 
         try {
-            const response = await fetch(`http://localhost:5005/location/updateLocationInfo/${editingRoute.did}`, {
+            const response = await fetch(`${API_URL}/location/updateLocationInfo/${editingRoute.did}`, {
                 method: "PUT",
                 body: JSON.stringify({ location, name, category, image }),
                 credentials: "include",
@@ -166,7 +167,7 @@ export default function AdminPanel() {
                 // Refresh the routes list
                 const fetchData = async () => {
                     try {
-                        const response = await fetch("http://localhost:5005/location/getLocation", {
+                        const response = await fetch(`${API_URL}/location/getLocation`, {
                             method: "GET",
                             credentials: "include",
                             headers: {
@@ -194,7 +195,7 @@ export default function AdminPanel() {
 
     const handleDeleteRoute = async (did: number) => {
 
-        const response = await fetch(`http://localhost:5005/location/deleteLocation/${did}`, {
+        const response = await fetch(`${API_URL}/location/deleteLocation/${did}`, {
             method: "DELETE"
         })
 

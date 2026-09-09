@@ -8,6 +8,7 @@ import { useForm } from 'react-hook-form'
 import { z } from "zod";
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
+import { API_URL } from '@/constants/api'
 
 
 
@@ -57,7 +58,7 @@ const Login: React.FC = () => {
         setIsLoading(false);
         // console.log(email, password);
 
-        const response = await fetch(`http://localhost:5005/auth/login`, {
+        const response = await fetch(`${API_URL}/auth/login`, {
             method: "POST",
             body: JSON.stringify({ email, password }),
             credentials: "include",
